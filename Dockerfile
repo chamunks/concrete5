@@ -17,9 +17,8 @@ RUN apt-get update && \
 
 # Find latest download details at https://www.concrete5.org/get-started
 # - for newer version: change Concrete5 version# & download url & md5
-ENV CONCRETE5_VERSION 5.7.5.2
-ENV C5_URL https://www.concrete5.org/download_file/-/view/82243/
-ENV C5_MD5 61e48a8d4bf281a25420c3d2186a1a3d
+ENV CONCRETE5_VERSION 8.2.1
+ENV C5_URL https://github.com/concrete5/concrete5-core/archive/$CONCRETE5_VERSION.zip
 # nano and other commands will not work without this
 ENV TERM xterm
 
@@ -30,7 +29,6 @@ RUN perl -i.bak -0pe 's/<Directory \/var\/www\/>\n\tOptions Indexes FollowSymLin
     cp -r /etc/apache2 /usr/local/etc/apache2 && \
     cd /usr/local/src && \
     wget --no-verbose $C5_URL -O concrete5.zip && \
-    echo "$C5_MD5  concrete5.zip" | md5sum -c - && \
     unzip -qq concrete5.zip && \
     rm -v concrete5.zip && \
     rm -v /var/www/html/index.html
