@@ -15,8 +15,8 @@ ENV C5_URL https://github.com/concrete5/concrete5-core/archive/$CONCRETE5_VERSIO
 # nano and other commands will not work without this
 
 # Copy apache2 conf dir & Download Concrete5
-RUN sed -i 's/AllowOverride None/AllowOverride FileInfo/g' /etc/apache2/apache2.conf && \
-    cp -r /etc/apache2 /usr/local/etc/apache2 && \
+## sed -i 's/AllowOverride None/AllowOverride FileInfo/g' /etc/apache2/apache2.conf && \
+RUN cp -r /etc/apache2 /usr/local/etc/apache2 && \
     cd /usr/local/src && \
     wget --no-verbose $C5_URL -O concrete5.zip && \
     unzip -qq concrete5.zip && \
