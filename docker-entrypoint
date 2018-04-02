@@ -67,7 +67,7 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
         ls -A 1>&2
     fi
     echo "[info] Concrete5 Version: ${CONCRETE5_VERSION}"
-    cp -r /usr/local/src/concrete${CONCRETE5_VERSION}/* /var/www/html
+    cp -r /usr/local/src/concrete5-core-${CONCRETE5_VERSION}/* /var/www/html
 
     # change required permissions incl. for multi-lingual sites
     chown -Rv root:www-data application/files/
