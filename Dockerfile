@@ -18,7 +18,7 @@ ENV C5_URL https://github.com/concrete5/concrete5-core/archive/$CONCRETE5_VERSIO
 ## sed -i 's/AllowOverride None/AllowOverride FileInfo/g' /etc/apache2/apache2.conf && \
 RUN mkdir -p /usr/local/src && \
     mkdir -p /var/www/html && \
-    chown -d www-data:www-date /var/www/html && \
+    chown www-data:www-date /var/www/html && \
     cd /usr/local/src && \
     wget --no-verbose $C5_URL -O concrete5.zip && \
     unzip -qq concrete5.zip && \
