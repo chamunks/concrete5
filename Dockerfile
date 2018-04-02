@@ -37,7 +37,7 @@ RUN unzip -qq /usr/local/src/concrete5-${CONCRETE5_VERSION}.zip -d /usr/local/sr
 RUN ls -lAh /usr/local/src/
 RUN chown www-data:www-data /usr/local/src/concrete5-${CONCRETE5_VERSION}
 RUN ls -lAh /usr/local/src/concrete5-${CONCRETE5_VERSION}
-RUN rm -v concrete5-${CONCRETE5_VERSION}.zip
+RUN rm -v /usr/local/src/concrete5-${CONCRETE5_VERSION}.zip
 
 ADD config/database.php /var/www/html/config/database.php
 ADD docker-entrypoint /bin/docker-entrypoint
