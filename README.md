@@ -13,6 +13,7 @@ I've forked the original container from [/chriswayg/concrete5.7](https://github.
  * [ ] Add to Docker Hub
  * [ ] Build containers for all tags
  * [ ] Figure out how I want to maintain this the laziest way possible
+ * [ ] Add environment variables for installing this without the wizard on deploy
 
 ![Concrete5](https://www.concrete5.org/themes/version_4/images/logo.png "Concrete5 logo")
 #### Concrete5 is an easy to use web content management system
