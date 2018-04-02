@@ -14,7 +14,7 @@ RUN apt-get update && \
       patch \
       nano && \
     apt-get clean && rm -r /var/lib/apt/lists/*
-    
+
 # Find latest download details at https://www.concrete5.org/get-started
 # - for newer version: change Concrete5 version# & download url & md5
 ENV CONCRETE5_VERSION 5.7.5.2
@@ -28,7 +28,7 @@ ENV TERM xterm
 # - it matches a multi-line string and replaces 'None' with 'FileInfo'
 RUN perl -i.bak -0pe 's/<Directory \/var\/www\/>\n\tOptions Indexes FollowSymLinks\n\tAllowOverride None/<Directory \/var\/www\/>\n\tOptions Indexes FollowSymLinks\n\tAllowOverride FileInfo/' /etc/apache2/apache2.conf && \
     cp -r /etc/apache2 /usr/local/etc/apache2 && \
-    cd /usr/local/src && \ 
+    cd /usr/local/src && \
     wget --no-verbose $C5_URL -O concrete5.zip && \
     echo "$C5_MD5  concrete5.zip" | md5sum -c - && \
     unzip -qq concrete5.zip && \
@@ -36,7 +36,7 @@ RUN perl -i.bak -0pe 's/<Directory \/var\/www\/>\n\tOptions Indexes FollowSymLin
     rm -v /var/www/html/index.html
 
 # Persist website user data, logs & apache config
-VOLUME [ "/var/www/html", "/var/log/apache2", "/etc/apache2" ]
+VOLUME [ "/var/www/html", "/var/log/apache2", "/etc/apache2", "/var/www/html/config" ]
 
 EXPOSE 80 443
 WORKDIR /var/www/html
