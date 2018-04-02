@@ -13,6 +13,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt install ca-certificates apt-transport-htt
 RUN wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
 RUN echo "deb https://packages.sury.org/php/ stretch main" | tee /etc/apt/sources.list.d/php.list
 RUN apt-get update
+RUN apt-cache php |grep php7.2-
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
       patch \
