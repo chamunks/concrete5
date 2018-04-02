@@ -6,9 +6,9 @@ MAINTAINER Chamunks chamunks AT gmail.com
 # Install pre-requisites for Concrete5
 RUN apt-get update && \
       DEBIAN_FRONTEND=noninteractive apt-get -y install \
-      php7.2-curl \
-      php7.2-gd \
-      php7.2-mysql \
+      php-curl \
+      php-gd \
+      php-mysql \
       unzip \
       wget \
       patch \
