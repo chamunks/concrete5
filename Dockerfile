@@ -9,14 +9,15 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install gnupg apt-utils wget -y
 RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list
 RUN echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list
 RUN wget -qO - http://www.dotdeb.org/dotdeb.gpg | apt-key add - >/dev/null
-RUN DEBIAN_FRONTEND=noninteractive apt install ca-certificates apt-transport-https -y
-RUN wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
-RUN echo "deb https://packages.sury.org/php/ stretch main" | tee /etc/apt/sources.list.d/php.list
+# RUN DEBIAN_FRONTEND=noninteractive apt install ca-certificates apt-transport-https -y
+# RUN wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
+# RUN echo "deb https://packages.sury.org/php/ stretch main" | tee /etc/apt/sources.list.d/php.list
 RUN apt-get update
 RUN apt-cache search php
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
       patch \
+      php7.2-mysql \
       && rm -rf /var/lib/apt/lists/*
 
 # Find latest download details at https://www.concrete5.org/get-started
