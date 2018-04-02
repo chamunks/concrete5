@@ -4,6 +4,51 @@ set -e
 # include dot-files (if present) when coping into mounted volumes
 shopt -s dotglob
 
+## I pilfered this section from https://github.com/docker-library/mariadb/blob/0ab4688d0e6d3a81d7cd19e04db44fb499c49d6a/10.3/docker-entrypoint.sh
+# usage: file_env VAR [DEFAULT]
+#    ie: file_env 'XYZ_DB_PASSWORD' 'example'
+# (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
+#  "$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
+file_env() {
+	local var="$1"
+	local fileVar="${var}_FILE"
+	local def="${2:-}"
+	if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
+		echo >&2 "error: both $var and $fileVar are set (but are exclusive)"
+		exit 1
+	fi
+	local val="$def"
+	if [ "${!var:-}" ]; then
+		val="${!var}"
+	elif [ "${!fileVar:-}" ]; then
+		val="$(< "${!fileVar}")"
+	fi
+	export "$var"="$val"
+	unset "$fileVar"
+}
+
+## Configure database.php
+if [ ! -z "$MYSQL_SERVER" ]; then
+      sed -i 's/MYSQL_SERVER/$MYSQL_SERVER/g' /var/www/html/config/database.php
+    else
+      sed -i 's/MYSQL_SERVER/localhost/g' /var/www/html/config/database.php
+    fi
+if [ ! -z "$MYSQL_DATABASE" ]; then
+      sed -i 's/MYSQL_DATABASE/$MYSQL_DATABASE/g' /var/www/html/config/database.php
+    else
+      sed -i 's/MYSQL_DATABASE/c5db/g' /var/www/html/config/database.php
+    fi
+if [ ! -z "$MYSQL_USERNAME" ]; then
+      sed -i 's/MYSQL_USERNAME/$MYSQL_USERNAME/g' /var/www/html/config/database.php
+    else
+      sed -i 's/MYSQL_USERNAME/defaultuser/g' /var/www/html/config/database.php
+    fi
+if [ ! -z "$MYSQL_" ]; then
+      sed -i 's/MYSQL_/$MYSQL_/g' /var/www/html/config/database.php
+    else
+      sed -i 's/MYSQL_/defaultpassword/g' /var/www/html/config/database.php
+    fi
+
 # if empty, copy apache2 configuration to volume
 if [ ! "$(ls -A /etc/apache2)" ]; then
     cp -r  /usr/local/etc/apache2/* /etc/apache2
@@ -34,6 +79,8 @@ if [ ! -e '/var/www/html/concrete/config/concrete.php' ]; then
     chmod -Rv 775 application/languages/site
     echo "[info] copied Concrete5 and set permissions"
 fi
+
+
 
 # else default to run whatever the user wanted like "bash"
 exec "$@"
