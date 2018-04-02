@@ -1,14 +1,7 @@
-FROM debian/jessie
-MAINTAINER Chamunks chamunks AT gmail DOT com
+FROM debian:jessie
+MAINTAINER Chamunks chamunks AT gmail.com
 
-RUN apt-get update && \
-      DEBIAN_FRONTEND=noninteractive apt-get -y install \
-      apache2 \
-      libapache2-mod-php5 \
-      php5 && \
-    apt-get clean && rm -r /var/lib/apt/lists/*
-
-COPY apache2-foreground /usr/local/bin/
+# This image provides Concrete5.7 at root of site
 
 # Install pre-requisites for Concrete5 & nano for editing conf files
 RUN apt-get update && \
