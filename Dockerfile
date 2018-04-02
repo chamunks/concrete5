@@ -17,7 +17,6 @@ RUN apt-cache search php
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
       patch \
-      php7-mysql \
       && rm -rf /var/lib/apt/lists/*
 
 # Find latest download details at https://www.concrete5.org/get-started
