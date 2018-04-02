@@ -1,4 +1,4 @@
-FROM FROM debian/jessie
+FROM debian/jessie
 MAINTAINER Chamunks chamunks AT gmail DOT com
 
 RUN apt-get update && \
