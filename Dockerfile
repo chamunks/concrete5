@@ -5,13 +5,12 @@ MAINTAINER Chamunks chamunks AT gmail.com
 
 # Install pre-requisites for Concrete5
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install gnupg apt-utils -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install gnupg apt-utils wget -y && \
     echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
     echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
     wget -qO - http://www.dotdeb.org/dotdeb.gpg | apt-key add -
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
-      wget \
       patch \
       php7.2-curl \
       php7.2-gd \
