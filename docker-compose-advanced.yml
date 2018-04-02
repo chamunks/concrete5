@@ -102,6 +102,9 @@ web:
     restart: always
     depends_on:
       - db
+  log_opt:
+    max-size: "256k"
+    max-file: "10"
     labels:
       # https://docs.traefik.io/user-guide/docker-and-lets-encrypt/
       - "traefik.backend=adminer"
