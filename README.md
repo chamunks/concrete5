@@ -1,4 +1,4 @@
-# Concrete5.7 for Docker
+# Concrete5 for Docker
 
 Docker image of Concrete5 with Apache and PHP based on the official Debian Jessie image.
 
