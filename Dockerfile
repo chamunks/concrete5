@@ -28,7 +28,9 @@ RUN mkdir -p /usr/local/src && \
     ls -lAh /var/www/html
 
 ADD config/database.php /var/www/html/config/database.php
-ADD docker-entrypoint /docker-entrypoint
+ADD docker-entrypoint /bin/docker-entrypoint
+
+RUN chmod +x /bin/docker-entrypoint
 
 # Persist website user data, logs & apache config
 VOLUME [ "/var/www/html", "/usr/local/etc/php", "/var/www/html/config" ]
