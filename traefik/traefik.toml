@@ -1,5 +1,7 @@
+## You're going to need to enable or disable debug as you need.
 debug = true
 
+## Another useful option for logLevel is Debug
 logLevel = "ERROR"
 defaultEntryPoints = ["https","http"]
 
