@@ -5,7 +5,7 @@ MAINTAINER Chamunks chamunks AT gmail.com
 
 # Install pre-requisites for Concrete5
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install gnupg -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install gnupg apt-utils -y && \
     echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
     echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
     apt-key add gpg && \
