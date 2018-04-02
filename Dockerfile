@@ -8,6 +8,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install gnupg -y && \
     echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
     echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
+    apt-key add gpg && \
     wget -O- http://www.dotdeb.org/dotdeb.gpg | apt-key add -
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
