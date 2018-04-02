@@ -1,0 +1,38 @@
+debug = true
+
+logLevel = "ERROR"
+defaultEntryPoints = ["https","http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
+
+[retry]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "example.com"
+watch = true
+exposedbydefault = false
+
+[acme]
+email = "admin@example.com"
+storage = "/opt/traefik/acme.json"
+entryPoint = "https"
+OnHostRule = true
+[acme.httpChallenge]
+entryPoint = "http"
+
+# Ping definition for enabling healthcheck
+[ping]
+  # Name of the related entry point
+  #
+  # Optional
+  # Default: "traefik"
+  #
+  entryPoint = "traefik"
