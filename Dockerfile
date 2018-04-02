@@ -23,11 +23,11 @@ RUN mkdir -p /usr/local/src && \
     mkdir -p /var/www/html && \
     chown www-data:www-data /var/www/html && \
     cd /usr/local/src && \
-    wget --no-verbose $C5_URL -O concrete${CONCRETE5_VERSION}.zip && \
-    unzip -qq concrete${CONCRETE5_VERSION}.zip && \
+    wget --header 'Host: www.concrete5.org' --user-agent 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0) Gecko/20100101 Firefox/52.0' --header 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' --header 'Accept-Language: en-US,en;q=0.5' --header 'Upgrade-Insecure-Requests: 1' 'https://www.concrete5.org/download_file/-/view/100595/8497/' --output-document 'concrete5-8.3.2.zip'  && \
+    unzip -qq concrete5-${CONCRETE5_VERSION}.zip && \
     chown www-data:www-data /usr/local/src/concrete5-core-${CONCRETE5_VERSION} && \
     ls -lAh /usr/local/src/concrete5-core-8.2.1 && \
-    rm -v concrete${CONCRETE5_VERSION}.zip
+    rm -v concrete5-${CONCRETE5_VERSION}.zip
 
 ADD config/database.php /var/www/html/config/database.php
 ADD docker-entrypoint /bin/docker-entrypoint
