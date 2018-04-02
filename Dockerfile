@@ -35,8 +35,9 @@ RUN mkdir -p /usr/local/src && \
 
 ADD config/database.php /var/www/html/config/database.php
 ADD docker-entrypoint /bin/docker-entrypoint
+ADD apache2-foreground /bin/apache2-foreground
 
-RUN chmod +x /bin/docker-entrypoint
+RUN chmod +x /bin/docker-entrypoint && chmod +x /bin/apache2-foreground
 
 # Persist website user data, logs & apache config
 VOLUME [ "/var/www/html", "/usr/local/etc/php", "/var/www/html/config" ]
@@ -47,4 +48,4 @@ WORKDIR /var/www/html
 COPY docker-entrypoint /docker-entrypoint
 
 ENTRYPOINT ["docker-entrypoint"]
-CMD ["php", "-a"]
+CMD ["apache2-foreground"]
