@@ -148,6 +148,9 @@ web:
       #  Because of this we will store the acme.json file persistently.
       #  In production we are going to need to figure out how it'll work with Kubernetes or variant.
       - /opt/traefik/:/opt/traefik/
+  log_opt:
+    max-size: "256k"
+    max-file: "10"
     labels:
       # https://docs.traefik.io/user-guide/docker-and-lets-encrypt/
       - "traefik.backend=proxy"
