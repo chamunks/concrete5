@@ -30,7 +30,7 @@ ENV CONCRETE5_VERSION 8.3.2
 ## One day figure out tags for this https://www.concrete5.org/developers/developer-downloads/
 RUN mkdir -p /usr/local/src
 RUN mkdir -p /var/www/html
-RUN chown www-data:www-data /var/www/html
+RUN chown root:www-data /var/www/html
 RUN cd /usr/local/src
 RUN wget --header 'Host: www.concrete5.org' --user-agent 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0) Gecko/20100101 Firefox/52.0' --header 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' --header 'Accept-Language: en-US,en;q=0.5' --header 'Upgrade-Insecure-Requests: 1' 'https://www.concrete5.org/download_file/-/view/100595/8497/' --output-document '/usr/local/src/concrete5-8.3.2.zip'
 RUN unzip -qq /usr/local/src/concrete5-${CONCRETE5_VERSION}.zip -d /usr/local/src/
