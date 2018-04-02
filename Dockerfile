@@ -1,12 +1,18 @@
-FROM php:alpine3.7
+FROM php:apache
 MAINTAINER Chamunks chamunks AT gmail.com
 
 # This image provides Concrete5.7 at root of site
 
-# Install pre-requisites for Concrete5 & nano for editing conf files
-RUN apk add --no-cache --virtual .build-deps \
+# Install pre-requisites for Concrete5
+RUN apt-get update && \
+      DEBIAN_FRONTEND=noninteractive apt-get -y install \
+      php7.2-curl \
+      php7.2-gd \
+      php7.2-mysql \
       unzip \
-      wget
+      wget \
+      patch \
+      && rm -rf /var/lib/apt/lists/*
 
 # Find latest download details at https://www.concrete5.org/get-started
 # - for newer version: change Concrete5 version# & download url & md5
