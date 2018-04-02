@@ -1,3 +1,6 @@
+#############################
+## MySQL/MariaDB Container ##
+#############################
 db:
   image: mariadb
   restart: always
@@ -22,28 +25,46 @@ db:
         # ipv4_address: 10.5.0.5
         aliases:
           - mysql
-
+#########################
+## Concrete5 container ##
+#########################
 web:
   image: chriswayg/concrete5.7
   restart: always
   ports:
   - "80:80"
   - "443:443"
+  ##############################################################################
   ## If you put a reverse proxy in front of this you can delete the Ports block
   ## and uncomment the Expose block then use Docker Networking to connect
   ## this container to the reverse proxy.
+  ##############################################################################
   # expose:
   #   - 80
   #   - 443
   links:
   - db
+  depends_on:
+    - db
   log_opt:
     max-size: "512k"
     max-file: "50"
-  # host volumes
+  #############################################################################
+  ## host volumes
+  ## You can uncomment this section if you want to enable host based Volumes
+  #############################################################################
   volumes:
     - ./data/etc/apache2:/etc/apache2
-    - ./data/var/www/html:/var/www/html
+    - ./data/html:/var/www/html
+    - ./data/config:/var/www/html/config
+    networks:
+      green:
+        ###################################################################
+        ## You can define the IP addresses statically here if you linked
+        ## You will have to uncomment the ipam config line below in the
+        ## Networks block at the bottom.
+        ###################################################################
+        # ipv4_address: 10.5.0.6
 
 #########################
 ## Network Definitions ##
