@@ -34,6 +34,9 @@ function test_for_dir() {
 			if [ "$(ls -A $1)" ]; then
 					echo "[warn] $1 is not Empty. It contains:" 1>&2
 					ls -A 1>&2
+					echo "Asserting permissions on $1"
+					chmod -Rv 775 $1
+					chown -Rv $2 $1
 			fi
 		else
 			echo Directory $1 was missing, creating directory and setting permissions.
@@ -95,6 +98,7 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
     echo "[info] copied Concrete5 and set permissions"
 fi
 
+chown -Rv root:www-data /var/www/html
 
 
 # else default to run whatever the user wanted like "bash"
