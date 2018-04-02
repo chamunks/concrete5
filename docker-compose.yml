@@ -15,6 +15,12 @@ db:
   # host volume
   volumes:
     - ./data/var/lib/mysql:/var/lib/mysql
+      #####################################################################
+      ## Added untested Healthcheck for enabling container dependencies ##
+      ## Uncomment this at your own risk it may stop your containers from
+      ## ever reporting healthy which may prevent the web container from
+      ## starting.
+      #####################################################################
       # healthcheck:
       #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$$MYSQL_ROOT_PASSWORD", "&&", "test", "'0'", "-eq", "$$(ps", "aux", "|", "awk", "'{print", "$$11}'", "|", "grep", "-c", "-e", "'^mysql$$')"]
   networks:
