@@ -16,7 +16,8 @@ ENV C5_URL https://github.com/concrete5/concrete5-core/archive/$CONCRETE5_VERSIO
 
 # Copy apache2 conf dir & Download Concrete5
 ## sed -i 's/AllowOverride None/AllowOverride FileInfo/g' /etc/apache2/apache2.conf && \
-RUN cd /usr/local/src && \
+RUN mkdir -p /usr/local/src && \
+    cd /usr/local/src && \
     wget --no-verbose $C5_URL -O concrete5.zip && \
     unzip -qq concrete5.zip && \
     rm -v concrete5.zip && \
