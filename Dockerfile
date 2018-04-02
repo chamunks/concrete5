@@ -4,11 +4,16 @@ MAINTAINER Chamunks chamunks AT gmail.com
 # This image provides Concrete5.7 at root of site
 
 # Install pre-requisites for Concrete5
+RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
+    echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
+    wget -O- http://www.dotdeb.org/dotdeb.gpg | apt-key add -
 RUN apt-get update && \
       DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
       wget \
       patch \
+      php7.2-curl \
+      php7.2-gd \
       php7.2-mysql \
       && rm -rf /var/lib/apt/lists/*
 
