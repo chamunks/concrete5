@@ -23,12 +23,10 @@ RUN mkdir -p /usr/local/src && \
     mkdir -p /var/www/html && \
     chown www-data:www-data /var/www/html && \
     cd /usr/local/src && \
-    wget --no-verbose $C5_URL -O concrete5.zip && \
-    unzip -qq concrete5.zip && \
-    chown www-data:www-data ./ && \
-    rm -v concrete5.zip && \
-    ls -lAh ./ && \
-    ls -lAh /var/www/html
+    wget --no-verbose $C5_URL -O concrete${CONCRETE5_VERSION}.zip && \
+    unzip -qq concrete${CONCRETE5_VERSION}.zip && \
+    chown www-data:www-data /usr/local/src/concrete${CONCRETE5_VERSION} && \
+    rm -v concrete${CONCRETE5_VERSION}.zip
 
 ADD config/database.php /var/www/html/config/database.php
 ADD docker-entrypoint /bin/docker-entrypoint
