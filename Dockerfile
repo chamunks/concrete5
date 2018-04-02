@@ -1,7 +1,14 @@
-FROM chriswayg/apache-php
-MAINTAINER Christian Wagner chriswayg@gmail.com
+FROM FROM debian:jessie
+MAINTAINER Chamunks chamunks AT gmail DOT com
 
-# This image provides Concrete5.7 at root of site
+RUN apt-get update && \
+      DEBIAN_FRONTEND=noninteractive apt-get -y install \
+      apache2 \
+      libapache2-mod-php5 \
+      php5 && \
+    apt-get clean && rm -r /var/lib/apt/lists/*
+
+COPY apache2-foreground /usr/local/bin/
 
 # Install pre-requisites for Concrete5 & nano for editing conf files
 RUN apt-get update && \
