@@ -1,0 +1,17 @@
+image: debian:jessie
+# image: debian:stretch
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+build:
+  stage: build
+  script:
+  #- docker build -t registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA .
+  - docker build -t registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest .
+  #- docker push registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA
+  #- docker tag registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest
+  - docker push registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest
+  # - sed -i 's/CI_COMMIT_REF_NAME/$CI_COMMIT_REF_NAME/g' ./docker-compose.yml
+  - docker pull registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest
+  - "curl -X POST -F token=4e94f469ab0b76a28df3f9174c0195 -F ref=$CI_COMMIT_REF_NAME https://gitlab.com/api/v4/projects/5862399/trigger/pipeline"
