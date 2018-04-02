@@ -1,31 +1,21 @@
-FROM debian:jessie
+FROM php:alpine3.7
 MAINTAINER Chamunks chamunks AT gmail.com
 
 # This image provides Concrete5.7 at root of site
 
 # Install pre-requisites for Concrete5 & nano for editing conf files
-RUN apt-get update && \
-      DEBIAN_FRONTEND=noninteractive apt-get -y install \
-      php5-curl \
-      php5-gd \
-      php5-mysql \
+RUN apk add --no-cache --virtual .build-deps \
       unzip \
-      wget \
-      patch \
-      nano && \
-    apt-get clean && rm -r /var/lib/apt/lists/*
+      wget
 
 # Find latest download details at https://www.concrete5.org/get-started
 # - for newer version: change Concrete5 version# & download url & md5
 ENV CONCRETE5_VERSION 8.2.1
 ENV C5_URL https://github.com/concrete5/concrete5-core/archive/$CONCRETE5_VERSION.zip
 # nano and other commands will not work without this
-ENV TERM xterm
 
 # Copy apache2 conf dir & Download Concrete5
-# Perl script to enable ability to activate 'Pretty URLs' and redirection in .htaccess by 'AllowOverride'
-# - it matches a multi-line string and replaces 'None' with 'FileInfo'
-RUN perl -i.bak -0pe 's/<Directory \/var\/www\/>\n\tOptions Indexes FollowSymLinks\n\tAllowOverride None/<Directory \/var\/www\/>\n\tOptions Indexes FollowSymLinks\n\tAllowOverride FileInfo/' /etc/apache2/apache2.conf && \
+RUN sed -i 's/AllowOverride None/AllowOverride FileInfo/g' /etc/apache2/apache2.conf && \
     cp -r /etc/apache2 /usr/local/etc/apache2 && \
     cd /usr/local/src && \
     wget --no-verbose $C5_URL -O concrete5.zip && \
