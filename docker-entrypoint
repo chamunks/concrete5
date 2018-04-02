@@ -99,6 +99,9 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 fi
 
 chown -Rv root:www-data /var/www/html
+chmod -Rv 775 /var/www/html/packages/
+chmod -Rv 775 /var/www/html/application/config/
+
 
 
 # else default to run whatever the user wanted like "bash"
