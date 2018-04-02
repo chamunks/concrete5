@@ -7,9 +7,9 @@ MAINTAINER Chamunks chamunks AT gmail.com
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install gnupg apt-utils -y && \
     echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
-    echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
-    apt-key add gpg && \
-    wget -q - http://www.dotdeb.org/dotdeb.gpg -O- | apt-key add - |grep -q
+    echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list
+    # apt-key add gpg
+    # wget -q - http://www.dotdeb.org/dotdeb.gpg -O- | apt-key add - |grep -q
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
       wget \
