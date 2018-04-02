@@ -9,6 +9,7 @@ RUN apt-get update && \
       unzip \
       wget \
       patch \
+      php7.2-mysql \
       && rm -rf /var/lib/apt/lists/*
 
 # Find latest download details at https://www.concrete5.org/get-started
