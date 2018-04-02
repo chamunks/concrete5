@@ -15,16 +15,18 @@ db:
   # host volume
   volumes:
     - ./data/var/lib/mysql:/var/lib/mysql
-    networks:
-      green:
-        ###################################################################
-        ## You can define the IP addresses statically here if you linked
-        ## You will have to uncomment the ipam config line below in the
-        ## Networks block at the bottom.
-        ###################################################################
-        # ipv4_address: 10.5.0.5
-        aliases:
-          - mysql
+      # healthcheck:
+      #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$$MYSQL_ROOT_PASSWORD", "&&", "test", "'0'", "-eq", "$$(ps", "aux", "|", "awk", "'{print", "$$11}'", "|", "grep", "-c", "-e", "'^mysql$$')"]
+  networks:
+    green:
+      ###################################################################
+      ## You can define the IP addresses statically here if you linked
+      ## You will have to uncomment the ipam config line below in the
+      ## Networks block at the bottom.
+      ###################################################################
+      # ipv4_address: 10.5.0.5
+      aliases:
+        - mysql
 #########################
 ## Concrete5 container ##
 #########################
@@ -57,14 +59,14 @@ web:
     - ./data/etc/apache2:/etc/apache2
     - ./data/html:/var/www/html
     - ./data/config:/var/www/html/config
-    networks:
-      green:
-        ###################################################################
-        ## You can define the IP addresses statically here if you linked
-        ## You will have to uncomment the ipam config line below in the
-        ## Networks block at the bottom.
-        ###################################################################
-        # ipv4_address: 10.5.0.6
+  networks:
+    green:
+      ###################################################################
+      ## You can define the IP addresses statically here if you linked
+      ## You will have to uncomment the ipam config line below in the
+      ## Networks block at the bottom.
+      ###################################################################
+      # ipv4_address: 10.5.0.6
 
 #########################
 ## Network Definitions ##
