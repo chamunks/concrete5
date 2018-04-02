@@ -21,7 +21,8 @@ RUN mkdir -p /usr/local/src && \
     wget --no-verbose $C5_URL -O concrete5.zip && \
     unzip -qq concrete5.zip && \
     rm -v concrete5.zip && \
-    mv -v ./* /var/www/html
+    ls -lAh ./ && \
+    ls -lAh /var/www/html
 
 ADD config/database.php /var/www/html/config/database.php
 
