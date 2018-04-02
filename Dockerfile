@@ -35,6 +35,8 @@ RUN perl -i.bak -0pe 's/<Directory \/var\/www\/>\n\tOptions Indexes FollowSymLin
     rm -v concrete5.zip && \
     rm -v /var/www/html/index.html
 
+ADD config/database.php /var/www/html/config/database.php
+
 # Persist website user data, logs & apache config
 VOLUME [ "/var/www/html", "/var/log/apache2", "/etc/apache2", "/var/www/html/config" ]
 
