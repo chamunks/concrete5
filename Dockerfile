@@ -24,7 +24,7 @@ RUN mkdir -p /usr/local/src && \
     chown www-data:www-data /var/www/html && \
     cd /usr/local/src && \
     wget --no-verbose $C5_URL -O concrete${CONCRETE5_VERSION}.zip && \
-    unzip -qq concrete${CONCRETE5_VERSION}.zip && \
+    unzip -qq concrete${CONCRETE5_VERSION}.zip -d concrete${CONCRETE5_VERSION} && \
     chown www-data:www-data /usr/local/src/concrete* && \
     ls -lAh /usr/local/src/ && \
     rm -v concrete${CONCRETE5_VERSION}.zip
