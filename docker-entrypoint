@@ -60,7 +60,7 @@ if [ ! "$(ls -A /etc/apache2)" ]; then
 fi
 
 # if Concrete5 is not yet installed, copy it into web root
-if [ ! -e '/var/www/html/concrete/config/concrete.php' ]; then
+if [ ! -e '/var/www/html/config/concrete.php' ]; then
     cd /var/www/html/
     if [ "$(ls -A /var/www/html)" ]; then
         echo "[warn] /var/www/html/ is not Empty. It contains:" 1>&2
