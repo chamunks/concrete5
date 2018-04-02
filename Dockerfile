@@ -43,7 +43,7 @@ RUN a2enmod rewrite
 
 # ADD .htaccess /var/www/html/.htaccess
 # ADD apache2.conf /etc/apache2/apache2.conf
-# ADD config/database.php /var/www/html/config/database.php
+ADD config/database.php /var/www/html/config/database.php
 ADD request.php /var/www/html/libraries/request.php
 ADD docker-entrypoint /bin/docker-entrypoint
 ADD apache2-foreground /bin/apache2-foreground
