@@ -4,6 +4,11 @@
 db:
   image: mariadb
   restart: always
+  #############################################################################
+  ## Database configuration
+  ## As mentioned in the README.md file you should really change the values
+  ## after the equals sign below in the environment directive values.
+  #############################################################################
   environment:
   - MYSQL_ROOT_PASSWORD=reallychangeme
   - MYSQL_USER=changeme
