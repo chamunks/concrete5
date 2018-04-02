@@ -5,14 +5,16 @@ db:
   image: mariadb
   restart: always
   environment:
-  - MYSQL_ROOT_PASSWORD=the_db_root_password
-  - MYSQL_USER=c5dbadmin
-  - MYSQL_PASSWORD=the_db_user_password
+  - MYSQL_ROOT_PASSWORD=reallychangeme
+  - MYSQL_USER=changeme
+  - MYSQL_PASSWORD=noreallyyoushouldchangeme
   - MYSQL_DATABASE=c5db
   log_opt:
     max-size: "256k"
     max-file: "10"
-  # host volume
+  #############################################################################
+  ## host volume, you may consider using actual docker volumes in the future.
+  #############################################################################
   volumes:
     - ./data/var/lib/mysql:/var/lib/mysql
       #####################################################################
