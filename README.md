@@ -1,7 +1,9 @@
 # Concrete5.7 for Docker
-[![](https://badge.imagelayers.io/chriswayg/concrete5.7:latest.svg)](https://imagelayers.io/?images=chriswayg/concrete5.7:latest)
 
-Docker image of Concrete5.7 with Apache2.4 and PHP 5.6 based on the official Debian Jessie image
+Docker image of Concrete5 with Apache and PHP based on the official Debian Jessie image.
+
+#### Fork Notes
+I've forked the original container from [/chriswayg/concrete5.7](https://github.com/chriswayg/concrete5.7) as it's massively out of date and somehow still one of the most popular open-source container available.  There is a container that is more popular but it's source is unavailable.
 
 ![Concrete5](https://www.concrete5.org/themes/version_4/images/logo.png "Concrete5 logo")
 #### Concrete5 is an easy to use web content management system
@@ -10,8 +12,8 @@ Concrete5 was designed for ease of use, for users with a minimum of technical sk
 
 ## Quickstart:
 
-#### Create a minimal Data Container 
-MariaDB will use the initially empty /var/lib/mysql directory and Concrete5 will use /var/www/html and /etc/apache2, which will be populated by the docker-entrypoint script. 
+#### Create a minimal Data Container
+MariaDB will use the initially empty /var/lib/mysql directory and Concrete5 will use /var/www/html and /etc/apache2, which will be populated by the docker-entrypoint script.
 ```
 docker create -it --name c5_DATA_1 \
 -v /var/lib/mysql \
@@ -21,7 +23,7 @@ tianon/true true
 ```
 The container does not need to be started or running for sharing its data.
 
-#### Create a Database 
+#### Create a Database
 This initializes one database for use with Concrete5. Remember replacing the the_root_password and the_db_user_password with real passwords.
 ```
 docker run -d --name db \
@@ -72,11 +74,11 @@ web:
   - "443:443"
   links:
   - db
-  # host volumes 
+  # host volumes
   volumes:
     - ./data/etc/apache2:/etc/apache2
     - ./data/var/www/html:/var/www/html
-  
+
 $ docker-compose up -d
 ```
 
