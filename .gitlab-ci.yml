@@ -1,5 +1,4 @@
 image: php:alpine3.7
-# image: debian:stretch
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
