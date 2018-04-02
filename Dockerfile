@@ -12,7 +12,8 @@ RUN apt-get update && \
     apt install ca-certificates apt-transport-https  && \
     wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - && \
     echo "deb https://packages.sury.org/php/ stretch main" | tee /etc/apt/sources.list.d/php.list
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
       patch \
       php7.2-curl \
