@@ -5,6 +5,15 @@ Docker image of Concrete5 with Apache and PHP based on the official Debian Jessi
 #### Fork Notes
 I've forked the original container from [/chriswayg/concrete5.7](https://github.com/chriswayg/concrete5.7) as it's massively out of date and somehow still one of the most popular open-source container available.  There is a container that is more popular but it's source is unavailable.
 
+### To-Do:
+ * [ ] Upgrade container from php 5.6 to php 7
+ * [ ] Upgrade apache2
+ * [ ] Upgrade Concrete5
+ * [ ] Add release tags
+ * [ ] Add to Docker Hub
+ * [ ] Build containers for all tags
+ * [ ] Figure out how I want to maintain this the laziest way possible
+
 ![Concrete5](https://www.concrete5.org/themes/version_4/images/logo.png "Concrete5 logo")
 #### Concrete5 is an easy to use web content management system
 
