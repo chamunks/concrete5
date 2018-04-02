@@ -41,13 +41,13 @@ RUN rm -v /usr/local/src/concrete5-${CONCRETE5_VERSION}.zip
 ## Groundwork for "Pretty URL's"
 RUN a2enmod rewrite
 
-ADD .htaccess /var/www/html/.htaccess
-ADD apache2.conf /etc/apache2/apache2.conf
-ADD config/database.php /var/www/html/config/database.php
+# ADD .htaccess /var/www/html/.htaccess
+# ADD apache2.conf /etc/apache2/apache2.conf
+# ADD config/database.php /var/www/html/config/database.php
 ADD request.php /var/www/html/libraries/request.php
 ADD docker-entrypoint /bin/docker-entrypoint
 ADD apache2-foreground /bin/apache2-foreground
-ADD /php/docker-php-ext-pdo.ini /usr/local/etc/php/conf.d/docker-php-ext-pdo.ini
+ADD /php/docker-php-ext-all.ini /usr/local/etc/php/conf.d/docker-php-ext-all.ini
 
 RUN chmod +x /bin/docker-entrypoint && chmod +x /bin/apache2-foreground
 
