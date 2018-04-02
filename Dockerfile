@@ -22,7 +22,7 @@ RUN mkdir -p /usr/local/src && \
     cd /usr/local/src && \
     wget --no-verbose $C5_URL -O concrete5.zip && \
     unzip -qq concrete5.zip && \
-    chown -d www-data:www-date ./ && \
+    chown www-data:www-date ./ && \
     rm -v concrete5.zip && \
     ls -lAh ./ && \
     ls -lAh /var/www/html
