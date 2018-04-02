@@ -17,7 +17,6 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
       patch \
-      pdo-mysql \
       && rm -rf /var/lib/apt/lists/*
 
 # Find latest download details at https://www.concrete5.org/get-started
