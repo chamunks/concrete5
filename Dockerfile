@@ -9,7 +9,9 @@ RUN apt-get update && \
     echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
     echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
     wget -qO - http://www.dotdeb.org/dotdeb.gpg | apt-key add - >/dev/null && \
-    apt-cache search php
+    apt install ca-certificates apt-transport-https  && \
+    wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - && \
+    echo "deb https://packages.sury.org/php/ stretch main" | tee /etc/apt/sources.list.d/php.list
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
       unzip \
       patch \
