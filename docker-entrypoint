@@ -47,29 +47,29 @@ function test_for_dir() {
 }
 
 ## Configure database.php
-file_env 'MYSQL_SERVER'
-if [ ! -z "$MYSQL_SERVER" ]; then
-      sed -i 's/MYSQL_SERVER/$MYSQL_SERVER/g' /var/www/html/config/database.php
+file_env 'DB_SERVER'
+if [ ! -z "$DB_SERVER" ]; then
+      sed -i 's/DB_SERVER/$DB_SERVER/g' /var/www/html/config/database.php
     else
-      sed -i 's/MYSQL_SERVER/localhost/g' /var/www/html/config/database.php
+      sed -i 's/DB_SERVER/localhost/g' /var/www/html/config/database.php
     fi
-file_env 'MYSQL_DATABASE'
-if [ ! -z "$MYSQL_DATABASE" ]; then
-      sed -i 's/MYSQL_DATABASE/$MYSQL_DATABASE/g' /var/www/html/config/database.php
+file_env 'DB_NAME'
+if [ ! -z "$DB_NAME" ]; then
+      sed -i 's/DB_NAME/$DB_NAME/g' /var/www/html/config/database.php
     else
-      sed -i 's/MYSQL_DATABASE/c5db/g' /var/www/html/config/database.php
+      sed -i 's/DB_NAME/c5db/g' /var/www/html/config/database.php
     fi
-file_env 'MYSQL_USERNAME'
-if [ ! -z "$MYSQL_USERNAME" ]; then
-      sed -i 's/MYSQL_USERNAME/$MYSQL_USERNAME/g' /var/www/html/config/database.php
+file_env 'DB_USERNAME'
+if [ ! -z "$DB_USERNAME" ]; then
+      sed -i 's/DB_USERNAME/$DB_USERNAME/g' /var/www/html/config/database.php
     else
-      sed -i 's/MYSQL_USERNAME/defaultuser/g' /var/www/html/config/database.php
+      sed -i 's/DB_USERNAME/defaultuser/g' /var/www/html/config/database.php
     fi
-file_env 'MYSQL_PASSWORD'
-if [ ! -z "$MYSQL_PASSWORD" ]; then
-      sed -i 's/MYSQL_PASSWORD/$MYSQL_PASSWORD/g' /var/www/html/config/database.php
+file_env 'DB_PASSWORD'
+if [ ! -z "$DB_PASSWORD" ]; then
+      sed -i 's/DB_PASSWORD/$DB_PASSWORD/g' /var/www/html/config/database.php
     else
-      sed -i 's/MYSQL_PASSWORD/defaultpassword/g' /var/www/html/config/database.php
+      sed -i 's/DB_PASSWORD/defaultpassword/g' /var/www/html/config/database.php
     fi
 
 # if empty, copy apache2 configuration to volume
