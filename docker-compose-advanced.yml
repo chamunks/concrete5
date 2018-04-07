@@ -10,10 +10,10 @@ db:
   ## after the equals sign below in the environment directive values.
   #############################################################################
   environment:
-  - MYSQL_ROOT_PASSWORD=reallychangeme
-  - MYSQL_USER=changeme
-  - MYSQL_PASSWORD=noreallyyoushouldchangeme
-  - MYSQL_DATABASE=c5db
+  - DB_ROOT_PASSWORD=reallychangeme
+  - DB_USER=changeme
+  - DB_PASSWORD=noreallyyoushouldchangeme
+  - DB_NAME=c5db
   log_opt:
     max-size: "256k"
     max-file: "10"
@@ -29,7 +29,7 @@ db:
       ## starting.
       #####################################################################
       # healthcheck:
-      #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$$MYSQL_ROOT_PASSWORD", "&&", "test", "'0'", "-eq", "$$(ps", "aux", "|", "awk", "'{print", "$$11}'", "|", "grep", "-c", "-e", "'^mysql$$')"]
+      #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$$DB_ROOT_PASSWORD", "&&", "test", "'0'", "-eq", "$$(ps", "aux", "|", "awk", "'{print", "$$11}'", "|", "grep", "-c", "-e", "'^mysql$$')"]
   labels:
     test: traefik.enable=false
   networks:
