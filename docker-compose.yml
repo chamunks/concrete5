@@ -13,7 +13,7 @@ db:
   - MYSQL_ROOT_PASSWORD=reallychangeme
   - MYSQL_USER=changeme
   - MYSQL_PASSWORD=noreallyyoushouldchangeme
-  - MYSQL_DATABASE=c5db
+  - MYSQL_NAME=c5db
   log_opt:
     max-size: "256k"
     max-file: "10"
