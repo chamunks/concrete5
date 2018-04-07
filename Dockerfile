@@ -21,8 +21,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
 
 # Find latest download details at https://www.concrete5.org/get-started
 # - for newer version: change Concrete5 version# & download url & md5
-ENV CONCRETE5_VERSION 8.3.2
-# ENV C5_URL https://github.com/concrete5/concrete5-core/archive/$CONCRETE5_VERSION.zip
+ENV C5_VERSION 8.3.2
+# ENV C5_URL https://github.com/concrete5/concrete5-core/archive/$C5_VERSION.zip
 # nano and other commands will not work without this
 
 # Copy apache2 conf dir & Download Concrete5
@@ -33,11 +33,11 @@ RUN mkdir -p /var/www/html
 RUN chown root:www-data /var/www/html
 RUN cd /usr/local/src
 RUN wget --header 'Host: www.concrete5.org' --user-agent 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0) Gecko/20100101 Firefox/52.0' --header 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' --header 'Accept-Language: en-US,en;q=0.5' --header 'Upgrade-Insecure-Requests: 1' 'https://www.concrete5.org/download_file/-/view/100595/8497/' --output-document '/usr/local/src/concrete5-8.3.2.zip'
-RUN unzip -qq /usr/local/src/concrete5-${CONCRETE5_VERSION}.zip -d /usr/local/src/
+RUN unzip -qq /usr/local/src/concrete5-${C5_VERSION}.zip -d /usr/local/src/
 RUN ls -lAh /usr/local/src/
-RUN chown root:www-data /usr/local/src/concrete5-${CONCRETE5_VERSION}
-RUN ls -lAh /usr/local/src/concrete5-${CONCRETE5_VERSION}
-RUN rm -v /usr/local/src/concrete5-${CONCRETE5_VERSION}.zip
+RUN chown root:www-data /usr/local/src/concrete5-${C5_VERSION}
+RUN ls -lAh /usr/local/src/concrete5-${C5_VERSION}
+RUN rm -v /usr/local/src/concrete5-${C5_VERSION}.zip
 ## Groundwork for "Pretty URL's"
 RUN a2enmod rewrite
 
