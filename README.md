@@ -42,7 +42,7 @@ docker run -d --name db \
 -e MYSQL_ROOT_PASSWORD=the_db_root_password \
 -e MYSQL_USER=c5dbadmin \
 -e MYSQL_PASSWORD=the_db_user_password \
--e MYSQL_DATABASE=c5db \
+-e MYSQL_NAME=c5db \
 mariadb
 ```
 #### Run Concrete5
@@ -71,7 +71,7 @@ db:
   - MYSQL_ROOT_PASSWORD=the_db_root_password
   - MYSQL_USER=c5dbadmin
   - MYSQL_PASSWORD=the_db_user_password
-  - MYSQL_DATABASE=c5db
+  - MYSQL_NAME=c5db
   # host volume
   volumes:
     - ./data/var/lib/mysql:/var/lib/mysql
