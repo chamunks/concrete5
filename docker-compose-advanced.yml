@@ -22,6 +22,7 @@ db:
   #############################################################################
   volumes:
     - ./data/var/lib/mysql:/var/lib/mysql
+    # - 'concrete5_data:/var/www/html'
       #####################################################################
       ## Added untested Healthcheck for enabling container dependencies ##
       ## Uncomment this at your own risk it may stop your containers from
@@ -184,3 +185,11 @@ networks:
     ipam:
         config:
           - subnet: 10.5.0.0/16
+# #############
+# ## Volumes ##
+# #############
+# volumes:
+#   mariadb_data:
+#     driver: local
+#   concrete5_data:
+#     driver: local
