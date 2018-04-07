@@ -10,10 +10,10 @@ db:
   ## after the equals sign below in the environment directive values.
   #############################################################################
   environment:
-  - MYSQL_ROOT_PASSWORD=reallychangeme
-  - MYSQL_USER=changeme
-  - MYSQL_PASSWORD=noreallyyoushouldchangeme
-  - MYSQL_NAME=c5db
+  - MYSQL_ROOT_PASSWORD=c5db_database_root_password
+  - MYSQL_USER=c5db_user
+  - MYSQL_PASSWORD=c5db_database_password
+  - MYSQL_DATABASE=c5db_database
   log_opt:
     max-size: "256k"
     max-file: "10"
