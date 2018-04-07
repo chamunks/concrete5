@@ -5,6 +5,8 @@ Docker image of Concrete5 with Apache and PHP based on the official Debian Jessi
 #### Fork Notes
 I've forked the original container from [/chriswayg/concrete5.7](https://github.com/chriswayg/concrete5.7) as it's massively out of date and somehow still one of the most popular open-source container available.  There is a container that is more popular but it's source is unavailable.
 
+I eventually ended up completely rewriting this whole thing it's probably justifiable to just start a new repository all together.
+
 ### To-Do:
  * [ ] Upgrade container from php 5.6 to php 7
  * [ ] Upgrade apache2
@@ -39,10 +41,10 @@ This initializes one database for use with Concrete5. Remember replacing the the
 docker run -d --name db \
 --restart=always \
 --volumes-from c5_DATA_1 \
--e MYSQL_ROOT_PASSWORD=the_db_root_password \
--e MYSQL_USER=c5dbadmin \
--e MYSQL_PASSWORD=the_db_user_password \
--e MYSQL_NAME=c5db \
+-e MYSQL_ROOT_PASSWORD=c5db_database_root_password \
+-e MYSQL_USER=c5db_user \
+-e MYSQL_PASSWORD=c5db_database_password \
+-e MYSQL_DATABASE=c5db_database \
 mariadb
 ```
 #### Run Concrete5
@@ -68,10 +70,10 @@ db:
   image: mariadb
   restart: always
   environment:
-  - MYSQL_ROOT_PASSWORD=the_db_root_password
-  - MYSQL_USER=c5dbadmin
-  - MYSQL_PASSWORD=the_db_user_password
-  - MYSQL_NAME=c5db
+  - MYSQL_ROOT_PASSWORD=c5db_database_root_password
+  - MYSQL_USER=c5db_user
+  - MYSQL_PASSWORD=c5db_database_password
+  - MYSQL_DATABASE=c5db_database
   # host volume
   volumes:
     - ./data/var/lib/mysql:/var/lib/mysql
