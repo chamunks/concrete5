@@ -16,6 +16,10 @@ MAINTAINER Chamunks chamunks AT gmail.com
 #  C5_PASSWORD is the password to assign to the admin account that will be created on the new concrete5 installation
 #  C5_LOCALE (this is optional) is the code of the default site language (by default it's en_US)
 
+ENV MYSQL_SERVER      localhost
+ENV MYSQL_USERNAME    default
+ENV MYSQL_PASSWORD    default
+ENV MYSQL_DATABASE    default
 ENV DB_SERVER         $MYSQL_SERVER
 ENV DB_USERNAME       $MYSQL_USERNAME
 ENV DB_PASSWORD       $MYSQL_PASSWORD
