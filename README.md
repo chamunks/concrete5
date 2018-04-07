@@ -3,7 +3,7 @@
 Docker image of Concrete5 with Apache and PHP based on the official Debian Jessie image.
 
 #### Fork Notes
-I've forked the original container from [/chriswayg/concrete5.7](https://github.com/chriswayg/concrete5.7) as it's massively out of date and somehow still one of the most popular open-source container available.  There is a container that is more popular but it's source is unavailable.
+I've forked the original container from [/chamunks/concrete5](https://github.com/chamunks/concrete5) as it's massively out of date and somehow still one of the most popular open-source container available.  There is a container that is more popular but it's source is unavailable.
 
 I eventually ended up completely rewriting this whole thing it's probably justifiable to just start a new repository all together.
 
@@ -56,7 +56,7 @@ docker run -d --name=c5_web_1 \
 --link db:db \
 -p 80:80 \
 -p 443:443 \
-chriswayg/concrete5.7
+chamunks/concrete5
 ```				   
 
 #### Docker-Compose
@@ -79,7 +79,7 @@ db:
     - ./data/var/lib/mysql:/var/lib/mysql
 
 web:
-  image: chriswayg/concrete5.7
+  image: chamunks/concrete5
   restart: always
   ports:
   - "80:80"
