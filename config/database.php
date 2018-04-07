@@ -4,7 +4,7 @@ return array(
         'concrete' => array(
             'driver' => 'c5_pdo_mysql',
             'server' => 'MYSQL_SERVER',
-            'database' => 'MYSQL_NAME',
+            'database' => 'MYSQL_DATABASE',
             'username' => 'MYSQL_USERNAME',
             'password' => 'MYSQL_PASSWORD',
             'charset' => 'utf8'
