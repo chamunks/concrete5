@@ -1,6 +1,6 @@
 # Concrete5 for Docker
 
-Docker image of Concrete5 with Apache and PHP based on the official Debian Jessie image.
+Docker image of Concrete5 with Apache and PHP based on the official Debian Stretch image.
 
 #### Fork Notes
 I've forked the original container from [/chamunks/concrete5](https://github.com/chamunks/concrete5) as it's massively out of date and somehow still one of the most popular open-source container available.  There is a container that is more popular but it's source is unavailable.
