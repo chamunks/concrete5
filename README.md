@@ -3,8 +3,6 @@
 Docker image of Concrete5 with Apache and PHP based on the official Debian Stretch image.
 
 #### Fork Notes
-I've forked the original container from [/chamunks/concrete5](https://github.com/chamunks/concrete5) as it's massively out of date and somehow still one of the most popular open-source container available.  There is a container that is more popular but it's source is unavailable.
-
 I eventually ended up completely rewriting this whole thing it's probably justifiable to just start a new repository all together.
 
 ### To-Do:
@@ -103,11 +101,3 @@ On the setup page, set your site-name and admin user password and enter the foll
 The Concrete5 and MariaDB *application containers* can be removed (even with `docker rm -f -v`), upgraded and reinitialized without loosing website or database data, as all website data is stored in the ./data/ directory. (Just do not delete the data directory;)
 
 To find out where the data is stored on disk, check with `docker inspect c5_DATA_1 | grep -A1 Source`
-
----
-###### License:
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
-
-###### License Disclaimer:
-
-At this point this repository is pretty much 100% different from the upstream fork and if I had my preference here I'd just license it with the MIT license or that weird GNU license that would require that you publish improvements I guess.  However it seems silly to even really license a Docker container in some way or another but I guess if we don't put one then it's technically by default copyrighted code so do whatever you feel is right here.
