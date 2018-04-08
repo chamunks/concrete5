@@ -6,7 +6,7 @@
 ## * That you just want C5 running instantly at first.
 ## * That you can set environment variables in your setup
 
-if [[ "$PRESEED" = true ]]; then
+if [[ "$PRESEED" = yes ]]; then
   DBCHECK=`mysqlshow --host=$DB_SERVER --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME`
   if [[ "$dbcheck" == "$DB_NAME" ]]; then
     die() {
