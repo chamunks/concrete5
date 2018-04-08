@@ -6,14 +6,12 @@ Docker image of Concrete5 with Apache and PHP based on the official Debian Stret
 I eventually ended up completely rewriting this whole thing it's probably justifiable to just start a new repository all together.
 
 ### To-Do:
- * [ ] Upgrade container from php 5.6 to php 7
- * [ ] Upgrade apache2
- * [ ] Upgrade Concrete5
  * [ ] Add release tags
- * [ ] Add to Docker Hub
- * [ ] Build containers for all tags
- * [ ] Figure out how I want to maintain this the laziest way possible
- * [ ] Add environment variables for installing this without the wizard on deploy
+ * [x] ~~~Add to Docker Hub~~~
+ * [ ] Build containers for all php7.x supported versions of Concrete5
+ * [ ] Figure out how I want to maintain this the laziest and most automated way possible
+ * [x] ~~~Add environment variables for installing this without the wizard on deploy~~~
+ * [ ] Document said variables so people can use this without having to think too hard.
 
 ![Concrete5](https://www.concrete5.org/themes/version_4/images/logo.png "Concrete5 logo")
 #### Concrete5 is an easy to use web content management system
@@ -32,59 +30,45 @@ If you want to have a cloud deployment in Kubernetes or something like Rancher y
 This initializes one database for use with Concrete5. Remember replacing the the_root_password and the_db_user_password with real passwords.
 ```
 docker run -d --name db \
---restart=always \
---volume ./data/db:/var/lib/mysql \
--e MYSQL_ROOT_PASSWORD=c5db_database_root_password \
--e MYSQL_USER=c5db_user \
--e MYSQL_PASSWORD=c5db_database_password \
--e MYSQL_DATABASE=c5db_database \
-mariadb
+    --restart=always \
+    --volume ./data/db:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=c5db_database_root_password \
+    -e MYSQL_USER=c5db_user \
+    -e MYSQL_PASSWORD=c5db_database_password \
+    -e MYSQL_DATABASE=c5db_database \
+    mariadb
 ```
+
 #### Run Concrete5
-It  will be linked to the MariaDB: The link between the c5_db and the c5_web container causes the /etc/hosts file in the Concrete5 container to be continually updated with the current IP of the c5_db container.
+It  will be linked to the MariaDB: The link between the c5_db and the c5_web container causes the /etc/hosts file in the Concrete5 container to be continually updated with the current IP of the c5_db container.  This is a legacy feature of Docker and you should consider just using Docker-Compose or variants.
+
 ```
 docker run -d --name=c5_web_1 \
---restart=always \
---volume ./data/html:/var/www/html \
---link db:db \
--p 80:80 \
-chamunks/concrete5
-```				   
+    --restart=always \
+    --volume ./data/html:/var/www/html \
+    --link db:db \
+    -p 80:80 \
+    chamunks/concrete5
+```
 
 #### Docker-Compose
-Alternatively to the above, using docker-compose create the data-volume, database and Concrete5.7 containers all in one step, as can be seen in `docker-compose-datavol.yml`. Or if you prefer, use host volumes as shown below:
+Alternatively to the above, using docker-compose create the data-volume, database and Concrete5 containers all in one step, as can be seen in `docker-compose.yml`. Or if you prefer, use host volumes as linked below:
 
-```
-$ cd c5
-$ cat docker-compose.yml
+[https://github.com/chamunks/concrete5/blob/master/docker-compose.yml](https://github.com/chamunks/concrete5/blob/master/docker-compose.yml)
 
-db:
-  image: mariadb
-  restart: always
-  environment:
-  - MYSQL_ROOT_PASSWORD=c5db_database_root_password
-  - MYSQL_USER=c5db_user
-  - MYSQL_PASSWORD=c5db_database_password
-  - MYSQL_DATABASE=c5db_database
-  # host volume
-  volumes:
-    - ./data/var/lib/mysql:/var/lib/mysql
+Then you can run `docker-compose up -d` to launch your containers.
 
-web:
-  image: chamunks/concrete5
-  restart: always
-  ports:
-  - "80:80"
-  - "443:443"
-  links:
-  - db
-  # host volumes
-  volumes:
-    - ./data/etc/apache2:/etc/apache2
-    - ./data/var/www/html:/var/www/html
+#### Docker-Compose Advanced Mode with HTTPS and other fun.
 
-$ docker-compose up -d
-```
+This version requires some things:
+
+ - You'll need to know how to setup your own DNS prior to launching these containers to point at the place you'll be running this otherwise your TLS certificates won't work.
+ - You'll need to know that port 443 and 80 will both be bound on all IP's on your machine unless you edit the file and specify what IP/Interface you want it bound to.
+ - You understand that this is as is and YMMV it is essentially unsupported however I would like it in it's default form to work so if it doesn't please submit an issue.
+
+[https://github.com/chamunks/concrete5/blob/master/docker-compose-advanced.yml](https://github.com/chamunks/concrete5/blob/master/docker-compose-advanced.yml)
+
+This uses an extra container for a front end reverse proxy using an appliance called Traefik and it should automatically provision your acme.json located TLS certificates in front of your Concrete5 container.  You'll need to change variables in the docker-compose-advanced.yml file before it will run.
 
 #### Concrete5 Setup
 Visit your Concrete5 site at `https://example.org` for initial setup.
