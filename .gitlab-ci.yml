@@ -1,4 +1,4 @@
-image: php:alpine3.7
+image: chamunks/concrete5
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
@@ -11,5 +11,4 @@ build:
   #- docker push registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA
   #- docker tag registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest
   - docker push registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest
-  # - sed -i 's/CI_COMMIT_REF_NAME/$CI_COMMIT_REF_NAME/g' ./docker-compose.yml
   - docker pull registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest
