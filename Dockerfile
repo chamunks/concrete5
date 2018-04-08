@@ -31,7 +31,7 @@ ENV C5_STARTING_POINT elemental_full
 ENV C5_EMAIL          default@example.com
 ENV C5_PASSWORD       default
 ENV C5_LOCALE         en_US
-ENV PRESEED           yes
+ENV C5_PRESEED           yes
 
 
 RUN apt-get update && apt-get install -y \
