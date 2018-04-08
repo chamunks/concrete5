@@ -34,7 +34,7 @@ ENV C5_LOCALE         en_US
 ENV PRESEED           true
 
 
-RUN apt-get update && apt-get install -y && \
+RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libpng-dev \
     mariadb-client-10.1 && \
