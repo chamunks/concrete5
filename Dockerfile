@@ -38,7 +38,8 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libpng-dev \
     mariadb-client-10.1 \
-    wget && \
+    wget \
+    unzip && \
     docker-php-ext-install mysqli && \
     docker-php-ext-install zip && \
     docker-php-ext-install gd && \
