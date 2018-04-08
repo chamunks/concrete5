@@ -6,12 +6,12 @@
 ## * That you just want C5 running instantly at first.
 ## * That you can set environment variables in your setup
 
-if [[ "$PRESEED" = yes ]]; then
+if [[ "$C5_PRESEED" = yes ]]; then
   DBCHECK=`mysqlshow --host=$DB_SERVER --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME`
   if [[ "$dbcheck" == "$DB_NAME" ]]; then
     die() {
     echo "[FAIL] You already have a database on the specified server."
-    echo "please run this container with the environment variable PRESEED set to false if you wish to start it without the database preseed."
+    echo "please run this container with the environment variable C5_PRESEED set to false if you wish to start it without the database C5_PRESEED."
     1>&2 ; exit 1; }
   else
     /var/www/html/concrete/bin/concrete5 c5:install \
