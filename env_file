@@ -20,4 +20,4 @@ C5_STARTING_POINT = default
 C5_EMAIL          = default
 C5_PASSWORD       = default
 C5_LOCALE         = default
-C5_PRESEED           = yes
+C5_PRESEED        = yes
