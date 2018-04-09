@@ -34,16 +34,22 @@ ENV C5_LOCALE         en_US
 ENV C5_PRESEED yes
 
 
+## Only including some of the dependencies for now from
+## https://documentation.concrete5.org/developers/installation/system-requirements
 RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libpng-dev \
     mariadb-client \
     wget \
-    unzip && \
+    unzip \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev && \
     docker-php-ext-install mysqli && \
     docker-php-ext-install zip && \
-    docker-php-ext-install gd && \
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+    docker-php-ext-install -j$(nproc) gd && \
     docker-php-ext-install pdo_mysql && \
+    docker-php-source delete && \
     a2enmod rewrite
 
 RUN mkdir -p /usr/local/src && \
