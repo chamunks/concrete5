@@ -19,17 +19,17 @@ MAINTAINER Chamunks chamunks AT gmail.com
 ENV C5_VERSION 8.3.2
 
 ENV MYSQL_SERVER      localhost
-ENV MYSQL_USERNAME    dbcnfusername
-ENV MYSQL_PASSWORD    dbcnfpassword
-ENV MYSQL_DATABASE    dbcnfdatabase
+ENV MYSQL_USERNAME    generated
+ENV MYSQL_PASSWORD    generated
+ENV MYSQL_DATABASE    generated
 ENV DB_SERVER         $MYSQL_SERVER
 ENV DB_USERNAME       $MYSQL_USERNAME
 ENV DB_PASSWORD       $MYSQL_PASSWORD
 ENV DB_NAME           $MYSQL_DATABASE
-ENV CT_SITE_NAME      placeholder.com
+ENV CT_SITE_NAME      default.com
 ENV C5_STARTING_POINT elemental_full
-ENV C5_EMAIL          placeholder@example.com
-ENV C5_PASSWORD       dbcnfpassword
+ENV C5_EMAIL          default@default.com
+ENV C5_PASSWORD       generated
 ENV C5_LOCALE         en_US
 ENV C5_PRESEED        yes
 
