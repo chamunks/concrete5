@@ -37,7 +37,7 @@ ENV C5_PRESEED           yes
 RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libpng-dev \
-    mariadb-client-10.1 \
+    mariadb-client \
     wget \
     unzip && \
     docker-php-ext-install mysqli && \
