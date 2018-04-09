@@ -107,9 +107,9 @@ echo "finale perms check pre-launch"
 echo "chown /var/www/html"
 chown -Rv root:www-data /var/www/html |grep -v retained
 echo "chmod /var/www/html/packages/"
-chmod -Rv 775 /var/www/html/packages
+chmod -Rv 775 /var/www/html/packages |grep -v retained
 echo "chmod /var/www/html/application/config"
-chmod -Rv 775 /var/www/html/application/config
+chmod -Rv 775 /var/www/html/application/config |grep -v retained
 
 
 
