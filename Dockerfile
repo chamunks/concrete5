@@ -58,6 +58,7 @@ RUN unzip -qq /usr/local/src/concrete5-${C5_VERSION}.zip -d /usr/local/src/  && 
 
 ADD config/database.php /var/www/html/config/database.php
 ADD /php/docker-php-uploads.ini /usr/local/etc/php/conf.d/docker-php-uploads.ini
+ADD /php/docker-php-gd.ini /usr/local/etc/php/conf.d/docker-php-gd.ini
 ADD docker-entrypoint /bin/docker-entrypoint
 ADD start.sh /bin/start-c5
 
