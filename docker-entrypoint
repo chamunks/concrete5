@@ -35,14 +35,14 @@ function test_for_dir() {
 					echo "[warn] $1 is not Empty. It contains:" 1>&2
 					ls -A 1>&2
 					echo "Asserting permissions on $1"
-					chmod -Rv 775 $1
-					chown -Rv $2 $1
+					chmod -Rv 775 $1 |grep -v retained
+					chown -Rv $2 $1 |grep -v retained
 			fi
 		else
 			echo Directory $1 was missing, creating directory and setting permissions.
 			mkdir -p $1
-			chmod -Rv 775 $1
-			chown -Rv $2 $1
+			chmod -Rv 775 $1 |grep -v retained
+			chown -Rv $2 $1 |grep -v retained
 		fi
 }
 
@@ -98,7 +98,7 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
     echo "[info] copied Concrete5 and set permissions"
 fi
 
-chown -Rv root:www-data /var/www/html
+chown -Rv root:www-data /var/www/html |grep -v retained
 chmod -Rv 775 /var/www/html/packages/
 chmod -Rv 775 /var/www/html/application/config/
 
