@@ -12,12 +12,12 @@
 #  C5_LOCALE (this is optional) is the code of the default site language (by default it's en_US)
 
 DB_SERVER         = localhost
-DB_USERNAME       = default
-DB_PASSWORD       = default
-DB_NAME           = default
-CT_SITE_NAME      = default
-C5_STARTING_POINT = default
-C5_EMAIL          = default
-C5_PASSWORD       = default
-C5_LOCALE         = default
+DB_USERNAME       = default_username
+DB_PASSWORD       = default_password
+DB_NAME           = default_database
+CT_SITE_NAME      = default.com
+C5_STARTING_POINT = elemental_full
+C5_EMAIL          = default@default.com
+C5_PASSWORD       = default_password2
+C5_LOCALE         = en_US
 C5_PRESEED        = yes
