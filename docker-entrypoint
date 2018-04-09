@@ -4,6 +4,11 @@ set -e
 # include dot-files (if present) when coping into mounted volumes
 shopt -s dotglob
 
+## a nice tidy linecounter and echo response to keep things clean.
+function change_count() {
+	read LINECOUNT && echo "There were $LINECOUNT changes made."
+}
+
 ## I pilfered this section from https://github.com/docker-library/mariadb/blob/0ab4688d0e6d3a81d7cd19e04db44fb499c49d6a/10.3/docker-entrypoint.sh
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
@@ -36,18 +41,18 @@ function test_for_dir() {
 					ls -A 1>&2
 					echo "Asserting permissions on $1 with test_for_dir function"
 					echo "chmod -Rv 775 $1"
-					chmod -Rv 775 $1 |grep -v retained
+					chmod -Rv 775 $1 |grep -v retained |change_count
 					echo "chown -Rv $2 $1"
-					chown -Rv $2 $1 |grep -v retained
+					chown -Rv $2 $1 |grep -v retained |change_count
 			fi
 		else
 			echo Directory $1 was missing, creating directory and setting permissions.
 			mkdir -p $1
 			echo "Asserting permissions on newly created $1 with test_for_dir function"
 			echo "chmod -Rv 775 $1"
-			chmod -Rv 775 $1 |grep -v retained
+			chmod -Rv 775 $1 |grep -v retained |change_count
 			echo "chown -Rv $2 $1"
-			chown -Rv $2 $1 |grep -v retained
+			chown -Rv $2 $1 |grep -v retained |change_count
 		fi
 }
 
@@ -105,11 +110,11 @@ fi
 
 echo "finale perms check pre-launch"
 echo "chown /var/www/html"
-chown -Rv root:www-data /var/www/html |grep -v retained
+chown -Rv root:www-data /var/www/html |grep -v retained |change_count
 echo "chmod /var/www/html/packages/"
-chmod -Rv 775 /var/www/html/packages |grep -v retained
+chmod -Rv 775 /var/www/html/packages |grep -v retained |change_count
 echo "chmod /var/www/html/application/config"
-chmod -Rv 775 /var/www/html/application/config |grep -v retained
+chmod -Rv 775 /var/www/html/application/config |grep -v retained |change_count
 
 
 
