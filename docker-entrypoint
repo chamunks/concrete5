@@ -59,31 +59,33 @@ function test_for_dir() {
 ## Configure database.php
 file_env 'DB_SERVER'
 if [ ! -z "$DB_SERVER" ]; then
-      sed -i "s/DB_SERVER/$DB_SERVER/g" /var/www/html/config/database.php
+      sed -i "s/DBCONF_SERVER/$DB_SERVER/g" /var/www/html/config/database.php
     else
-      sed -i "s/DB_SERVER/localhost/g" /var/www/html/config/database.php
+      sed -i "s/DBCONF_SERVER/localhost/g" /var/www/html/config/database.php
     fi
 file_env 'DB_NAME'
 if [ ! -z "$DB_NAME" ]; then
-      sed -i "s/DB_NAME/$DB_NAME/g" /var/www/html/config/database.php
+      sed -i "s/DBCONF_NAME/$DB_NAME/g" /var/www/html/config/database.php
     else
-      sed -i "s/DB_NAME/$MYSQL_DATABASE/g" /var/www/html/config/database.php
+      sed -i "s/DBCONF_NAME/$MYSQL_DATABASE/g" /var/www/html/config/database.php
     fi
 file_env 'DB_USERNAME'
 if [ ! -z "$DB_USERNAME" ]; then
-      sed -i "s/DB_USERNAME/$DB_USERNAME/g" /var/www/html/config/database.php
+      sed -i "s/DBCONF_USERNAME/$DB_USERNAME/g" /var/www/html/config/database.php
     else
-      sed -i "s/DB_USERNAME/$MYSQL_USERNAME/g" /var/www/html/config/database.php
+      sed -i "s/DBCONF_USERNAME/$MYSQL_USERNAME/g" /var/www/html/config/database.php
     fi
 file_env 'DB_PASSWORD'
 if [ ! -z "$DB_PASSWORD" ]; then
-      sed -i "s/DB_PASSWORD/$DB_PASSWORD/g" /var/www/html/config/database.php
+      sed -i "s/DBCONF_PASSWORD/$DB_PASSWORD/g" /var/www/html/config/database.php
     else
-      sed -i "s/DB_PASSWORD/$MYSQL_PASSWORD/g" /var/www/html/config/database.php
+      sed -i "s/DBCONF_PASSWORD/$MYSQL_PASSWORD/g" /var/www/html/config/database.php
     fi
 
 # if empty, copy apache2 configuration to volume
 if [ ! "$(ls -A /etc/apache2)" ]; then
+		echo "[info] apache2 configuration dir was empty installing alternative."
+		echo "[RUN] cp -r  /usr/local/etc/apache2/* /etc/apache2"
     cp -r  /usr/local/etc/apache2/* /etc/apache2
     echo "[info] copied apache2 configuration directory"
 fi
