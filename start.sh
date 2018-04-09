@@ -13,6 +13,20 @@ if [[ "$C5_PRESEED" = yes ]]; then
     echo "please run this container with the environment variable C5_PRESEED set to false if you wish to start it without the database C5_PRESEED."
     1>&2 ; exit 1; }
   else
+    echo "[Info] No DB Found at $DB_USERNAME@$DB_SERVER using password $DB_PASSWORD"
+    echo "       the current root password is: $MYSQL_ROOT_PASSWORD"
+    echo "[Info] Running C5 installation with the following settings"
+    echo "[RUN]     /var/www/html/concrete/bin/concrete5 c5:install \
+          --db-server=$DB_SERVER \
+          --db-username=$DB_USERNAME \
+          --db-password=$DB_PASSWORD \
+          --db-database=$DB_NAME \
+          --site=$C5_SITE_NAME \
+          --starting-point=$C5_STARTING_POINT \
+          --admin-email=$C5_EMAIL \
+          --admin-password=$C5_PASSWORD \
+          --site-locale=$C5_LOCALE && \
+          apache2-foreground"
     /var/www/html/concrete/bin/concrete5 c5:install \
       --db-server=$DB_SERVER \
       --db-username=$DB_USERNAME \
