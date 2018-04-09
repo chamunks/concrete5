@@ -6,10 +6,10 @@
 ## * That you just want C5 running instantly at first.
 ## * That you can set environment variables in your setup
 echo "[Info] Testing connection to MariaDB database"
-echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
-mysqlshow --host=$DB_SERVER --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME
+echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
+mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME
 if [[ "$C5_PRESEED" = yes ]]; then
-  DBCHECK=`mysqlshow --host=$DB_SERVER --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME`
+  DBCHECK=`mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME`
   if [[ "$dbcheck" == "$DB_NAME" ]]; then
     die() {
     echo "[FAIL] You already have a database on the specified server."
