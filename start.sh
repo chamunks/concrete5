@@ -23,7 +23,7 @@ if [[ "$C5_PRESEED" = yes ]]; then
       --starting-point=$C5_STARTING_POINT \
       --admin-email=$C5_EMAIL \
       --admin-password=$C5_PASSWORD \
-      --default-locale=$C5_LOCALE && \
+      --site-locale=$C5_LOCALE && \
       apache2-foreground
   fi
   else
