@@ -99,11 +99,11 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
     cp -r /usr/local/src/concrete5-${C5_VERSION}/* /var/www/html
 
     # change required permissions incl. for multi-lingual sites
-    test_for_dir /var/www/html/application/files/ root:www-data
-    test_for_dir /var/www/html/application/config/ root:www-data
-    test_for_dir /var/www/html/packages/ root:www-data
-    test_for_dir /var/www/html/updates/ root:www-data
-    test_for_dir /var/www/html/application/languages/site root:www-data
+    test_for_dir /var/www/html/application/files/ "root:www-data"
+    test_for_dir /var/www/html/application/config/ "root:www-data"
+    test_for_dir /var/www/html/packages/ "root:www-data"
+    test_for_dir /var/www/html/updates/ "root:www-data"
+    test_for_dir /var/www/html/application/languages/site "root:www-data"
 
     echo "[info] copied Concrete5 and set permissions"
 fi
