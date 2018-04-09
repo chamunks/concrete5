@@ -40,19 +40,19 @@ function test_for_dir() {
 					echo "[warn] $1 is not Empty. It contains:" 1>&2
 					ls -A 1>&2
 					echo "Asserting permissions on $1 with test_for_dir function"
-					echo "RUN chmod -Rv 775 $1"
-					chmod -Rv 775 $1
-					echo "RUN chown -Rv $2 $1"
-					chown -Rv $2 $1 |grep -v retained
+					echo "RUN chmod -R 775 $1"
+					chmod -R 775 $1
+					echo "RUN chown -R $2 $1"
+					chown -R $2 $1
 			fi
 		else
 			echo Directory $1 was missing, creating directory and setting permissions.
 			mkdir -p $1
 			echo "Asserting permissions on newly created $1 with test_for_dir function"
-			echo "RUN chmod -Rv 775 $1"
-			chmod -Rv 775 $1 |grep -v retained
-			echo "RUN chown -Rv $2 $1"
-			chown -Rv $2 $1 |grep -v retained
+			echo "RUN chmod -R 775 $1"
+			chmod -R 775 $1
+			echo "RUN chown -R $2 $1"
+			chown -R $2 $1
 		fi
 }
 
@@ -110,11 +110,11 @@ fi
 
 echo "finale perms check pre-launch"
 echo "RUN chown /var/www/html"
-chown -Rv root:www-data /var/www/html |grep -v retained
+chown -R root:www-data /var/www/html
 echo "RUN chmod /var/www/html/packages/"
-chmod -Rv 775 /var/www/html/packages |grep -v retained
+chmod -R 775 /var/www/html/packages
 echo "RUN chmod /var/www/html/application/config"
-chmod -Rv 775 /var/www/html/application/config |grep -v retained
+chmod -R 775 /var/www/html/application/config
 
 
 
