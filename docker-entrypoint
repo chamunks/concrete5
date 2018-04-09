@@ -41,18 +41,18 @@ function test_for_dir() {
 					ls -A 1>&2
 					echo "Asserting permissions on $1 with test_for_dir function"
 					echo "chmod -Rv 775 $1"
-					chmod -Rv 775 $1 |grep -v retained |change_count
+					chmod -Rv 775 $1 |grep -v retained
 					echo "chown -Rv $2 $1"
-					chown -Rv $2 $1 |grep -v retained |change_count
+					chown -Rv $2 $1 |grep -v retained
 			fi
 		else
 			echo Directory $1 was missing, creating directory and setting permissions.
 			mkdir -p $1
 			echo "Asserting permissions on newly created $1 with test_for_dir function"
 			echo "chmod -Rv 775 $1"
-			chmod -Rv 775 $1 |grep -v retained |change_count
+			chmod -Rv 775 $1 |grep -v retained
 			echo "chown -Rv $2 $1"
-			chown -Rv $2 $1 |grep -v retained |change_count
+			chown -Rv $2 $1 |grep -v retained
 		fi
 }
 
@@ -110,11 +110,11 @@ fi
 
 echo "finale perms check pre-launch"
 echo "chown /var/www/html"
-chown -Rv root:www-data /var/www/html |grep -v retained |change_count
+chown -Rv root:www-data /var/www/html |grep -v retained
 echo "chmod /var/www/html/packages/"
-chmod -Rv 775 /var/www/html/packages |grep -v retained |change_count
+chmod -Rv 775 /var/www/html/packages |grep -v retained
 echo "chmod /var/www/html/application/config"
-chmod -Rv 775 /var/www/html/application/config |grep -v retained |change_count
+chmod -Rv 775 /var/www/html/application/config |grep -v retained
 
 
 
