@@ -1,4 +1,4 @@
-FROM php:7.2.3-apache-stretch
+FROM php:7.1-apache-stretch
 
 MAINTAINER Chamunks chamunks AT gmail.com
 
