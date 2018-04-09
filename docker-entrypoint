@@ -41,7 +41,7 @@ function test_for_dir() {
 					ls -A 1>&2
 					echo "Asserting permissions on $1 with test_for_dir function"
 					echo "RUN chmod -Rv 775 $1"
-					chmod -Rv 775 $1 |grep -v retained
+					chmod -Rv 775 $1
 					echo "RUN chown -Rv $2 $1"
 					chown -Rv $2 $1 |grep -v retained
 			fi
