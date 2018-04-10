@@ -9,36 +9,13 @@ function change_count() {
 	read LINECOUNT && echo "[Info] There were $LINECOUNT changes made."
 }
 
-## I pilfered this section from https://github.com/docker-library/mariadb/blob/0ab4688d0e6d3a81d7cd19e04db44fb499c49d6a/10.3/docker-entrypoint.sh
-# usage: file_env VAR [DEFAULT]
-#		ie: file_env 'XYZ_DB_PASSWORD' 'example'
-# (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
-#	"$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
-function file_env() {
-	local var="$1"
-	local fileVar="${var}_FILE"
-	local def="${2:-}"
-	if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
-		echo >&2 "[error] both $var and $fileVar are set (but are exclusive)"
-		exit 1
-	fi
-	local val="$def"
-	if [ "${!var:-}" ]; then
-		val="${!var}"
-	elif [ "${!fileVar:-}" ]; then
-		val="$(< "${!fileVar}")"
-	fi
-	export "$var"="$val"
-	unset "$fileVar"
-}
-
 ## If directory doesn't exist create it and set group perms.
 function test_for_dir() {
 	if [ ! -e '$1' ]; then
 			if [ "$(ls -A $1)" ]; then
 					echo "[warn] $1 is not Empty. It contains:" 1>&2
 					ls -A 1>&2
-					echo "Asserting permissions on $1 with test_for_dir function"
+					echo "[Info] Asserting permissions on $1 with test_for_dir function"
 					echo "[RUN] chmod -R 775 $1"
 					chmod -R 775 $1
 					echo "[RUN] chown -R $2 $1"
@@ -56,31 +33,19 @@ function test_for_dir() {
 		fi
 }
 
+function setup_conf() {
+	if [ ! -z "$1" ]; then
+		sed -i "s/$2/$$1/g" $3
+	else
+		echo "[Info] $$1 was not set leaving as default instead."
+	fi
+}
+
 ## Configure database.php
-file_env 'DB_SERVER'
-if [ ! -z "$DB_SERVER" ]; then
-			sed -i "s/DBCONF_SERVER/$DB_SERVER/g" /var/www/html/config/database.php
-		else
-			sed -i "s/DBCONF_SERVER/localhost/g" /var/www/html/config/database.php
-		fi
-file_env 'DB_NAME'
-if [ ! -z "$DB_NAME" ]; then
-			sed -i "s/DBCONF_NAME/$DB_NAME/g" /var/www/html/config/database.php
-		else
-			sed -i "s/DBCONF_NAME/$MYSQL_DATABASE/g" /var/www/html/config/database.php
-		fi
-file_env 'DB_USERNAME'
-if [ ! -z "$DB_USERNAME" ]; then
-			sed -i "s/DBCONF_USERNAME/$DB_USERNAME/g" /var/www/html/config/database.php
-		else
-			sed -i "s/DBCONF_USERNAME/$MYSQL_USERNAME/g" /var/www/html/config/database.php
-		fi
-file_env 'DB_PASSWORD'
-if [ ! -z "$DB_PASSWORD" ]; then
-			sed -i "s/DBCONF_PASSWORD/$DB_PASSWORD/g" /var/www/html/config/database.php
-		else
-			sed -i "s/DBCONF_PASSWORD/$MYSQL_PASSWORD/g" /var/www/html/config/database.php
-		fi
+setup_conf '$DB_SERVER' DBCONF_SERVER /var/www/html/config/database.php
+setup_conf '$DB_NAME' DBCONF_NAME /var/www/html/config/database.php
+setup_conf '$DB_USERNAME' DBCONF_USERNAME /var/www/html/config/database.php
+setup_conf '$DB_PASSWORD' DBCONF_PASSWORD /var/www/html/config/database.php
 
 # if empty, copy apache2 configuration to volume
 if [ ! "$(ls -A /etc/apache2)" ]; then
