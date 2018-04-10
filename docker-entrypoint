@@ -6,9 +6,9 @@ shopt -s dotglob
 
 ## I pilfered this section from https://github.com/docker-library/mariadb/blob/0ab4688d0e6d3a81d7cd19e04db44fb499c49d6a/10.3/docker-entrypoint.sh
 # usage: file_env VAR [DEFAULT]
-#    ie: file_env 'XYZ_DB_PASSWORD' 'example'
+#		ie: file_env 'XYZ_DB_PASSWORD' 'example'
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
-#  "$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
+#	"$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
 function file_env() {
 	local var="$1"
 	local fileVar="${var}_FILE"
@@ -49,53 +49,54 @@ function test_for_dir() {
 ## Configure database.php
 file_env 'DB_SERVER'
 if [ ! -z "$DB_SERVER" ]; then
-      sed -i 's/DB_SERVER/$DB_SERVER/g' /var/www/html/config/database.php
-    else
-      sed -i 's/DB_SERVER/localhost/g' /var/www/html/config/database.php
-    fi
+			sed -i 's/DB_SERVER/$DB_SERVER/g' /var/www/html/config/database.php
+		else
+			sed -i 's/DB_SERVER/localhost/g' /var/www/html/config/database.php
+		fi
 file_env 'DB_NAME'
 if [ ! -z "$DB_NAME" ]; then
-      sed -i 's/DB_NAME/$DB_NAME/g' /var/www/html/config/database.php
-    else
-      sed -i 's/DB_NAME/c5db/g' /var/www/html/config/database.php
-    fi
+			sed -i 's/DB_NAME/$DB_NAME/g' /var/www/html/config/database.php
+		else
+			sed -i 's/DB_NAME/c5db/g' /var/www/html/config/database.php
+		fi
 file_env 'DB_USERNAME'
 if [ ! -z "$DB_USERNAME" ]; then
-      sed -i 's/DB_USERNAME/$DB_USERNAME/g' /var/www/html/config/database.php
-    else
-      sed -i 's/DB_USERNAME/defaultuser/g' /var/www/html/config/database.php
-    fi
+			sed -i 's/DB_USERNAME/$DB_USERNAME/g' /var/www/html/config/database.php
+		else
+			sed -i 's/DB_USERNAME/defaultuser/g' /var/www/html/config/database.php
+		fi
 file_env 'DB_PASSWORD'
 if [ ! -z "$DB_PASSWORD" ]; then
-      sed -i 's/DB_PASSWORD/$DB_PASSWORD/g' /var/www/html/config/database.php
-    else
-      sed -i 's/DB_PASSWORD/defaultpassword/g' /var/www/html/config/database.php
-    fi
+			sed -i 's/DB_PASSWORD/$DB_PASSWORD/g' /var/www/html/config/database.php
+		else
+			sed -i 's/DB_PASSWORD/defaultpassword/g' /var/www/html/config/database.php
+		fi
 
 # if empty, copy apache2 configuration to volume
 if [ ! "$(ls -A /etc/apache2)" ]; then
-    cp -r  /usr/local/etc/apache2/* /etc/apache2
-    echo "[info] copied apache2 configuration directory"
+		cp -r /usr/local/etc/apache2/* /etc/apache2
+		echo "[info] copied apache2 configuration directory"
 fi
 
 # if Concrete5 is not yet installed, copy it into web root
 if [ ! -e '/var/www/html/config/concrete.php' ]; then
-    cd /var/www/html/
-    if [ "$(ls -A /var/www/html)" ]; then
-        echo "[warn] /var/www/html/ is not Empty. It contains:" 1>&2
-        ls -A 1>&2
-    fi
-    echo "[info] Concrete5 Version: ${C5_VERSION}"
-    cp -r /usr/local/src/concrete5-${C5_VERSION}/* /var/www/html
+		cd /var/www/html/
+		if [ "$(ls -A /var/www/html)" ]; then
+				echo "[warn] /var/www/html/ is not Empty. It contains:" 1>&2
+				ls -A 1>&2
+		fi
+		echo "[info] Concrete5 Version: ${C5_VERSION}"
+		cp -r /usr/local/src/concrete5-${C5_VERSION}/* /var/www/html
 
-    # change required permissions incl. for multi-lingual sites
-    test_for_dir /var/www/html/application/files/ root:www-data
-    test_for_dir /var/www/html/application/config/ root:www-data
-    test_for_dir /var/www/html/packages/ root:www-data
-    test_for_dir /var/www/html/updates/ root:www-data
-    test_for_dir /var/www/html/application/languages/site root:www-data
+		# change required permissions incl. for multi-lingual sites
+		test_for_dir /var/www/html/application/files/ root:www-data
+		test_for_dir /var/www/html/application/config/ root:www-data
+		test_for_dir /var/www/html/packages/ root:www-data
+		test_for_dir /var/www/html/updates/ root:www-data
+		test_for_dir /var/www/html/application/languages/ root:www-data
+		test_for_dir /var/www/html/application/languages/site root:www-data
 
-    echo "[info] copied Concrete5 and set permissions"
+		echo "[info] copied Concrete5 and set permissions"
 fi
 
 chown -Rv root:www-data /var/www/html
