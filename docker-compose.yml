@@ -44,7 +44,7 @@ db:
 ## Concrete5 container ##
 #########################
 web:
-  image: chriswayg/concrete5.7
+  image: chamunks/concrete5
   restart: always
   ports:
   - "80:80"
