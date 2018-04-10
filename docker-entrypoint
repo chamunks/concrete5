@@ -40,7 +40,7 @@ function test_for_dir() {
 			fi
 		else
 			echo Directory $1 was missing, creating directory and setting permissions.
-			mkdir -p $1
+			mkdir -pv $1
 			chmod -Rv 775 $1
 			chown -Rv $2 $1
 		fi
