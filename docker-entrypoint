@@ -6,7 +6,7 @@ shopt -s dotglob
 
 ## a nice tidy linecounter and echo response to keep things clean.
 function change_count() {
-	read LINECOUNT && echo "There were $LINECOUNT changes made."
+	read LINECOUNT && echo "[Info] There were $LINECOUNT changes made."
 }
 
 ## I pilfered this section from https://github.com/docker-library/mariadb/blob/0ab4688d0e6d3a81d7cd19e04db44fb499c49d6a/10.3/docker-entrypoint.sh
@@ -19,7 +19,7 @@ function file_env() {
 	local fileVar="${var}_FILE"
 	local def="${2:-}"
 	if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
-		echo >&2 "error: both $var and $fileVar are set (but are exclusive)"
+		echo >&2 "[error] both $var and $fileVar are set (but are exclusive)"
 		exit 1
 	fi
 	local val="$def"
@@ -35,23 +35,23 @@ function file_env() {
 ## If directory doesn't exist create it and set group perms.
 function test_for_dir() {
 	if [ ! -e '$1' ]; then
-			cd /var/www/html/
 			if [ "$(ls -A $1)" ]; then
 					echo "[warn] $1 is not Empty. It contains:" 1>&2
 					ls -A 1>&2
 					echo "Asserting permissions on $1 with test_for_dir function"
-					echo "RUN chmod -R 775 $1"
+					echo "[RUN] chmod -R 775 $1"
 					chmod -R 775 $1
-					echo "RUN chown -R $2 $1"
+					echo "[RUN] chown -R $2 $1"
 					chown -R $2 $1
 			fi
 		else
-			echo Directory $1 was missing, creating directory and setting permissions.
-			mkdir -p $1
-			echo "Asserting permissions on newly created $1 with test_for_dir function"
-			echo "RUN chmod -R 775 $1"
+			echo "[Info] Directory $1 was missing, creating directory and setting permissions."
+			echo "[RUN] mkdir -pv $1"
+			mkdir -pv $1
+			echo "[Info] Setting permissions on newly created $1 with test_for_dir function"
+			echo "[RUN] chmod -R 775 $1"
 			chmod -R 775 $1
-			echo "RUN chown -R $2 $1"
+			echo "[RUN] chown -R $2 $1"
 			chown -R $2 $1
 		fi
 }
@@ -84,10 +84,10 @@ if [ ! -z "$DB_PASSWORD" ]; then
 
 # if empty, copy apache2 configuration to volume
 if [ ! "$(ls -A /etc/apache2)" ]; then
-		echo "[info] apache2 configuration dir was empty installing alternative."
+		echo "[Info] apache2 configuration dir was empty installing alternative."
 		echo "[RUN] cp -r /usr/local/etc/apache2/* /etc/apache2"
 		cp -r /usr/local/etc/apache2/* /etc/apache2
-		echo "[info] copied apache2 configuration directory"
+		echo "[Info] copied apache2 configuration directory"
 fi
 
 # if Concrete5 is not yet installed, copy it into web root
@@ -97,7 +97,7 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 				echo "[warn] /var/www/html/ is not Empty. It contains:" 1>&2
 				ls -A 1>&2
 		fi
-		echo "[info] Concrete5 Version: ${C5_VERSION}"
+		echo "[Info] Concrete5 Version: ${C5_VERSION}"
 		cp -r /usr/local/src/concrete5-${C5_VERSION}/* /var/www/html
 
 		# change required permissions incl. for multi-lingual sites
@@ -108,17 +108,15 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		test_for_dir /var/www/html/application/languages/ "root:www-data"
 		test_for_dir /var/www/html/application/languages/site "root:www-data"
 
-		test_for_dir /var/www/html/application/languages/site "root:www-data"
-
-		echo "[info] copied Concrete5 and set permissions"
+		echo "[Info] copied Concrete5 and set permissions"
 fi
 
 echo "Final perms check pre-launch"
-echo "RUN chown /var/www/html"
+echo "[RUN] chown /var/www/html"
 chown -R root:www-data /var/www/html
-echo "RUN chmod /var/www/html/packages/"
+echo "[RUN] chmod /var/www/html/packages/"
 chmod -R 775 /var/www/html/packages
-echo "RUN chmod /var/www/html/application/config"
+echo "[RUN] chmod /var/www/html/application/config"
 chmod -R 775 /var/www/html/application/config
 
 
