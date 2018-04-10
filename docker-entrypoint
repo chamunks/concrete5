@@ -106,17 +106,17 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		test_for_dir /var/www/html/packages/ "root:www-data"
 		test_for_dir /var/www/html/updates/ "root:www-data"
 		test_for_dir /var/www/html/application/languages/ "root:www-data"
-		test_for_dir /var/www/html/application/languages/site "root:www-data"
+		test_for_dir /var/www/html/application/languages/site/ "root:www-data"
 
 		echo "[Info] copied Concrete5 and set permissions"
 fi
 
 echo "Final perms check pre-launch"
-echo "[RUN] chown /var/www/html"
+echo "[RUN] chown -R root:www-data /var/www/html"
 chown -R root:www-data /var/www/html
-echo "[RUN] chmod /var/www/html/packages/"
+echo "[RUN] chmod -R 775 /var/www/html/packages"
 chmod -R 775 /var/www/html/packages
-echo "[RUN] chmod /var/www/html/application/config"
+echo "[RUN] chmod -R 775 /var/www/html/application/config"
 chmod -R 775 /var/www/html/application/config
 
 
