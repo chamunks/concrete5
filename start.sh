@@ -5,6 +5,7 @@
 ## * That you're using the default mysql port
 ## * That you just want C5 running instantly at first.
 ## * That you can set environment variables in your setup
+echo "[Info] Running start script"
 
 function console_break() {
   for i in {1..5}; do

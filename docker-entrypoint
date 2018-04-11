@@ -49,11 +49,6 @@ function test_for_dir() {
 	CHK_OWNERSHIP=$2
 	CHK_OCTAL=$3
 	if [ -d '$1' ]; then
-		# ## Check if directory is empty
-		# if [ "$(ls -A $1)" ]; then
-		# 	echo "[Info] $1 is not Empty. It contains:" 1>&2
-		# 	ls -A 1>&2
-		# fi
 		test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL
 	else
 		echo "[Info] Directory $1 was missing, creating directory and setting permissions."
@@ -85,13 +80,19 @@ fi
 
 # if Concrete5 is not yet installed, copy it into web root.
 # This could be updated to be part of an upgrade mechanism.
+echo "[RUN] ls /var/www/html/"
+ls /var/www/html/
 if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		if [ "$(ls -A /var/www/html)" ]; then
-				echo "[Warn] /var/www/html/ is not Empty. It contains:" 1>&2
-				ls -A 1>&2
+			echo "[Warn] /var/www/html/ is not Empty. It contains:" 1>&2
+			ls -A 1>&2
+			echo "[Info] Making an attempt to nicely merge files using."
+			echo "[RUN] mv -fnu /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
+			mv -fnu /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
+		else
+			echo "[RUN] mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
+			mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
 		fi
-		echo "[RUN] mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
-		mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
 		echo "Concrete5 installed into /var/www/html"
 		# change required permissions incl. for multi-lingual sites
 		test_for_dir /var/www/html/application/files/ "root:www-data" 2775
@@ -100,7 +101,6 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		test_for_dir /var/www/html/updates/ "root:www-data" 2775
 		test_for_dir /var/www/html/application/languages/ "root:www-data" 2775
 		test_for_dir /var/www/html/application/languages/site/ "root:www-data" 2775
-
 		echo "[Info] copied Concrete5 and set permissions"
 fi
 
