@@ -39,7 +39,7 @@ function test_for_dir() {
 			echo "[warn] $1 is not Empty. It contains:" 1>&2
 			ls -A 1>&2
 			test_perm $1 $2 $3
-	fi
+		fi
 	else
 		echo "[Info] Directory $1 was missing, creating directory and setting permissions."
 		echo "[RUN] mkdir -pv $1"
@@ -71,12 +71,11 @@ fi
 # This could be updated to be part of an upgrade mechanism.
 if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		if [ "$(ls -A /var/www/html)" ]; then
-				echo "[warn] /var/www/html/ is not Empty. It contains:" 1>&2
+				echo "[Warn] /var/www/html/ is not Empty. It contains:" 1>&2
 				ls -A 1>&2
 		fi
-
 		echo "[Info] Concrete5 Version: ${C5_VERSION}"
-		chown -R root:www-data /usr/local/src/concrete5-${C5_VERSION}/
+		test_for_dir /usr/local/src/concrete5-${C5_VERSION}/ "root:www-data"
 		mv /usr/local/src/concrete5-${C5_VERSION}/* /var/www/html/
 
 		# change required permissions incl. for multi-lingual sites
