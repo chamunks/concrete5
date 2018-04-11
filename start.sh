@@ -52,7 +52,6 @@ if [[ "$C5_PRESEED" == yes ]]; then
     1>&2 ; exit 1; }
   else
     echo "[Info] No DB Found at $DB_USERNAME@$DB_SERVER using password $DB_PASSWORD"
-    echo "       the current root password is: $MYSQL_ROOT_PASSWORD"
     echo "[Info] Running C5 installation with the following settings"
     echo "[RUN]     /var/www/html/concrete/bin/concrete5 c5:install \
           --db-server=$DB_SERVER \
