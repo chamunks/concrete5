@@ -10,10 +10,8 @@ function change_count() {
 }
 
 function test_perm() {
-	echo $1 $2 $3
 	## test octal permissions and assert them if they're wrong.
 	VAR3=$(stat %a $1)
-	echo VAR3 is $VAR3 1: $1 2: $2 3: $3
 	echo "Testing for $1 $2 $3"
 	if [ ! "$VAR3" == $2 ]; then
 		echo "[Warn] $1 was not set with the correct permissions $2"
@@ -44,7 +42,10 @@ function test_for_dir() {
 		if [ "$(ls -A $1)" ]; then
 			echo "[warn] $1 is not Empty. It contains:" 1>&2
 			ls -A 1>&2
-			test_perm $1 $2 $3
+			DIR_PATH=$1
+			DIR_OWNERSHIP=$2
+			DIR_OCTAL=$3
+			test_perm $DIR_PATH $DIR_OWNERSHIP $DIR_OCTAL
 		fi
 	else
 		echo "[Info] Directory $1 was missing, creating directory and setting permissions."
