@@ -47,7 +47,7 @@ function test_perm() {
 ## Var $2 should be your octal permissions for said directory.
 ## Var $3 should be your "user:group" names
 function test_for_dir() {
-	if [ ! -d '$1' ]; then
+	if [ -d '$1' ]; then
 		## Set variables from idices
 		CHK_PATH=$1
 		CHK_OWNERSHIP=$2
@@ -57,9 +57,6 @@ function test_for_dir() {
 		# 	echo "[Info] $1 is not Empty. It contains:" 1>&2
 		# 	ls -A 1>&2
 		# fi
-		CHK_PATH=$1
-		CHK_OWNERSHIP=$2
-		CHK_OCTAL=$3
 		test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL
 	else
 		echo "[Info] Directory $1 was missing, creating directory and setting permissions."
