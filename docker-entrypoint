@@ -11,8 +11,9 @@ function change_count() {
 
 function test_perm() {
 	## test octal permissions and assert them if they're wrong.
+	echo "Testing for $1 $2 $3"
 	if [ ! $(stat -a $1) == $2 ]; then
-		echo "[Warn] $1 was not set to have the correct permissions $2"
+		echo "[Warn] $1 was not set with the correct permissions $2"
 		echo "[RUN] chmod $2 $1"
 		chmod -v $2 $1
 	else
@@ -79,12 +80,12 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		mv /usr/local/src/concrete5-${C5_VERSION}/* /var/www/html/
 
 		# change required permissions incl. for multi-lingual sites
-		test_for_dir /var/www/html/application/files/ "root:www-data"
-		test_for_dir /var/www/html/application/config/ "root:www-data"
-		test_for_dir /var/www/html/packages/ "root:www-data"
-		test_for_dir /var/www/html/updates/ "root:www-data"
-		test_for_dir /var/www/html/application/languages/ "root:www-data"
-		test_for_dir /var/www/html/application/languages/site/ "root:www-data"
+		test_for_dir /var/www/html/application/files/ "root:www-data" 775
+		test_for_dir /var/www/html/application/config/ "root:www-data" 775
+		test_for_dir /var/www/html/packages/ "root:www-data" 775
+		test_for_dir /var/www/html/updates/ "root:www-data" 775
+		test_for_dir /var/www/html/application/languages/ "root:www-data" 775
+		test_for_dir /var/www/html/application/languages/site/ "root:www-data" 775
 
 		echo "[Info] copied Concrete5 and set permissions"
 fi
