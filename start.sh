@@ -46,7 +46,9 @@ echo "[Info], mysqlshow indicates the presence of the database: $DBCHECK_RESULT"
 
 console_break
 ## To run database preseed or not to.  Then run the appliance.
+echo "[Info] Preseed Database during first run?"
 if [[ "$C5_PRESEED" == yes ]]; then
+  echo [Info] Checking that MariaDB is connectable and has the correct default database available.
   if [[ ! "$DBCHECK_RESULT" == "$DB_NAME" ]]; then
     echo The database $DB_NAME does not exist on $DB_USERNAME@$DB_SERVER.
     ## This needs to be more advanced
@@ -58,8 +60,8 @@ if [[ "$C5_PRESEED" == yes ]]; then
     echo "[Info] No tables Found at $DB_USERNAME@$DB_SERVER in $DB_NAME using password $DB_PASSWORD"
     echo "[Info] Running C5 installation with the following settings"
     echo "[RUN]  /var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE && apache2-foreground"
-    /var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE && \
-      apache2-foreground
+    # /var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE && \
+    #   apache2-foreground
   fi
   else
     echo "[DONE] Starting your Concrete5 installation"
