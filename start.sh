@@ -15,9 +15,9 @@ function console_break() {
 
 function setup_conf() {
 	if [ ! -z "$1" ]; then
-		sed -i "s/$2/$$1/g" $3
+		sed -i "s/$2/$1/g" $3
 	else
-		echo "[Info] $$1 was not set leaving as default instead."
+		echo "[Info] $1 was not set leaving as default instead."
 	fi
 }
 
@@ -41,13 +41,13 @@ console_break
 echo "[Info] Testing connection to MariaDB database"
 echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
 DBCHECK=$(mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME)
+DBCHECK_RESULT=${DBCHECK}
 echo "[Info], mysqlshow indicates the presence of the database: $DBCHECK"
 
 console_break
 ## To run database preseed or not to.  Then run the appliance.
 if [[ "$C5_PRESEED" == yes ]]; then
-  echo $DBCHECK
-  if [[ ! "$DBCHECK" == "$DB_NAME" ]]; then
+  if [[ ! "$DBCHECK_RESULT" == "$DB_NAME" ]]; then
     echo The database $DB_NAME does not exist on $DB_USERNAME@$DB_SERVER.
     ## This needs to be more advanced
     # die() {
@@ -57,27 +57,8 @@ if [[ "$C5_PRESEED" == yes ]]; then
   else
     echo "[Info] No tables Found at $DB_USERNAME@$DB_SERVER in $DB_NAME using password $DB_PASSWORD"
     echo "[Info] Running C5 installation with the following settings"
-    echo "[RUN]     /var/www/html/concrete/bin/concrete5 c5:install \
-          --db-server=$DB_SERVER \
-          --db-username=$DB_USERNAME \
-          --db-password=$DB_PASSWORD \
-          --db-database=$DB_NAME \
-          --site=$C5_SITE_NAME \
-          --starting-point=$C5_STARTING_POINT \
-          --admin-email=$C5_EMAIL \
-          --admin-password=$C5_PASSWORD \
-          --site-locale=$C5_LOCALE && \
-          apache2-foreground"
-    /var/www/html/concrete/bin/concrete5 c5:install \
-      --db-server=$DB_SERVER \
-      --db-username=$DB_USERNAME \
-      --db-password=$DB_PASSWORD \
-      --db-database=$DB_NAME \
-      --site=$C5_SITE_NAME \
-      --starting-point=$C5_STARTING_POINT \
-      --admin-email=$C5_EMAIL \
-      --admin-password=$C5_PASSWORD \
-      --site-locale=$C5_LOCALE && \
+    echo "[RUN]  /var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE && apache2-foreground"
+    /var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE && \
       apache2-foreground
   fi
   else
