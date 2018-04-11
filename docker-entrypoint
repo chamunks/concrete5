@@ -20,7 +20,9 @@ function test_perm() {
 		echo "[Info] $1 has the correct permissions"
 	fi
 	## Test group and user permissions and assert them if they're wrong.
-	if [ ! $($(stat %U $1):$(stat %G $1)) == $3 ]; then
+	VAR1=stat %U $1
+	VAR2=stat %G $1
+	if [ ! "$VAR1:$VAR2" == $3 ]; then
 		echo "[Warn] $1 was not owned by the correct: user:group $3"
 		echo "[RUN] chown $1 $3"
 		chown -v $3 $1
