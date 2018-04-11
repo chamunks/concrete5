@@ -43,11 +43,14 @@ function test_for_dir() {
 			echo "[warn] $1 is not Empty. It contains:" 1>&2
 			ls -A 1>&2
 			DIR_PATH=$1
+			echo "Index1=$1"
 			echo "DIR_PATH=$DIR_PATH"
 			DIR_OWNERSHIP=$2
+			echo "Index2=$2"
 			echo "DIR_OWNERSHIP=$DIR_OWNERSHIP"
 			DIR_OCTAL=$3
-			echo "DIR_OCTAL"
+			echo "Index3=$3"
+			echo "DIR_OCTAL=$DIR_OCTAL"
 			test_perm $DIR_PATH $DIR_OWNERSHIP $DIR_OCTAL
 		fi
 	else
