@@ -17,29 +17,33 @@ db:
   log_opt:
     max-size: "256k"
     max-file: "10"
-  #############################################################################
+  ##############################################################################
   ## host volume, you may consider using actual docker volumes in the future.
-  #############################################################################
+  ##############################################################################
   volumes:
     - ./data/var/lib/mysql:/var/lib/mysql
+    ############################################################################
+    ## Example of actual docker volume usage you will need to uncomment
+    ## the block at the bottom of this compose file.
+    ############################################################################
     # - 'concrete5_data:/var/www/html'
-  #####################################################################
-  ## Added untested Healthcheck for enabling container dependencies ##
+  ##############################################################################
+  ## Added untested Healthcheck for enabling container dependencies
   ## Uncomment this at your own risk it may stop your containers from
   ## ever reporting healthy which may prevent the web container from
   ## starting.
-  #####################################################################
+  ##############################################################################
   healthcheck:
     test: ["RUN", "if", "[", "!", "$(mysqlshow", "--host=10.5.0.5", "--port=3306", "--user=$MYSQL_USER", "--password=$MYSQL_PASSWORD", "$MYSQL_DATABASE|", "grep", "-v", "Wildcard", "|", "grep", "-o", "$MYSQL_DATABASE)", "=", "$MYSQL_DATABASE", "];", "then", "echo", "[Error]:", "MariaDB", "instance", "is", "unhealthy.", "fi"]
   labels:
     test: traefik.enable=false
   networks:
     green:
-      ###################################################################
+      ##########################################################################
       ## You can define the IP addresses statically here if you linked
       ## You will have to uncomment the ipam config line below in the
       ## Networks block at the bottom.
-      ###################################################################
+      ##########################################################################
       ipv4_address: 10.5.0.5
       aliases:
         - mysql
@@ -49,28 +53,35 @@ db:
 web:
   image: chamunks/concrete5
   restart: always
-  ports:
-  - "80:80"
-  - "443:443"
   ##############################################################################
-  ## If you put a reverse proxy in front of this you can delete the Ports block
-  ## and uncomment the Expose block then use Docker Networking to connect
-  ## this container to the reverse proxy.
+  # If you put a reverse proxy in front of this you can delete the Ports block
+  # and uncomment the Expose block then use Docker Networking to connect
+  # this container to the reverse proxy.
   ##############################################################################
-  # expose:
-  #   - 80
-  #   - 443
+  expose:
+    - 80
   links:
   - db
   depends_on:
     - db
+  environment:
+    C5_PRESEED: "yes"
+    DB_SERVER: 10.5.0.8
+    DB_USERNAME: generated
+    DB_PASSWORD: generated
+    DB_NAME: c5db
+    CT_SITE_NAME: default.com
+    C5_STARTING_POINT: elemental_full
+    C5_EMAIL: default@default.com
+    C5_PASSWORD: default
+    C5_LOCALE: en_US
   log_opt:
     max-size: "512k"
     max-file: "50"
-  #############################################################################
+  ##############################################################################
   ## host volumes
   ## You can uncomment this section if you want to enable host based Volumes
-  #############################################################################
+  ##############################################################################
   volumes:
     - ./data/etc/apache2:/etc/apache2
     - ./data/html:/var/www/html
@@ -79,20 +90,20 @@ web:
       # https://docs.traefik.io/user-guide/docker-and-lets-encrypt/
       - "traefik.backend=web"
       - "traefik.docker.network=concrete5_green"
-      #####################################################################
+      ##########################################################################
       ## You're going to need to set an A record pointing your DNS at this
       ## machines IP address.
-      #####################################################################
+      ##########################################################################
       - "traefik.frontend.rule=Host:example.com"
       - "traefik.expose=true"
       - "traefik.port=8080"
   networks:
     green:
-      ###################################################################
+      ##########################################################################
       ## You can define the IP addresses statically here if you linked
       ## You will have to uncomment the ipam config line below in the
       ## Networks block at the bottom.
-      ###################################################################
+      ##########################################################################
       ipv4_address: 10.5.0.6
 
 #######################
@@ -110,11 +121,11 @@ web:
       # https://docs.traefik.io/user-guide/docker-and-lets-encrypt/
       - "traefik.backend=adminer"
       - "traefik.docker.network=concrete5_green"
-      #####################################################################
+      ##########################################################################
       ## You're going to need to set a CNAME record in your DNS to point
       ## at this machine's main domain however you do that in your setup.
       ## Example: CNAME adminer.example.com > example.com
-      #####################################################################
+      ##########################################################################
       - "traefik.frontend.rule=Host:adminer.example.com"
       - "traefik.expose=true"
       - "traefik.port=8080"
@@ -144,10 +155,14 @@ web:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/persistence/traefik/traefik.toml:/traefik.toml
-      ## This is going to be stored by default in the following host dir in staging.
-      #  There is a rate limit for how many issuances you can request per week.
-      #  Because of this we will store the acme.json file persistently.
-      #  In production we are going to need to figure out how it'll work with Kubernetes or variant.
+      ##########################################################################
+      ##  This is going to be stored by default in the following host dir in
+      ##  staging.
+      ##  There is a rate limit for how many issuances you can request per week.
+      ##  Because of this we will store the acme.json file persistently.
+      ##  In production you are going to need to figure out how it'll work with
+      ##  Kubernetes or variant.
+      ##########################################################################
       - /opt/traefik/:/opt/traefik/
   log_opt:
     max-size: "256k"
@@ -156,11 +171,11 @@ web:
       # https://docs.traefik.io/user-guide/docker-and-lets-encrypt/
       - "traefik.backend=proxy"
       - "traefik.docker.network=concrete5_green"
-      #####################################################################
+      ##########################################################################
       ## You're going to need to set a CNAME record in your DNS to point
       ## at this machine's main domain however you do that in your setup.
       ## Example: CNAME monitor.example.com > example.com
-      #####################################################################
+      ##########################################################################
       - "traefik.frontend.rule=Host:monitor.example.com"
       - "traefik.expose=true"
       - "traefik.port=8080"
@@ -179,9 +194,9 @@ web:
 networks:
   green:
     driver: bridge
-    ##################################################################
+    ############################################################################
     ## Uncomment to enable static IP's within the container cluster.
-    ##################################################################
+    ############################################################################
     ipam:
         config:
           - subnet: 10.5.0.0/16
