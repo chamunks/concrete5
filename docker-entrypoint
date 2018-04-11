@@ -11,6 +11,7 @@ function change_count() {
 
 function test_perm() {
 	## test octal permissions and assert them if they're wrong.
+	echo "[RUN] stat %a $1"
 	VAR3=$(stat %a $1)
 	echo "VAR3=$VAR3"
 	DIR_PATH=$1
