@@ -11,8 +11,9 @@ function change_count() {
 
 function test_perm() {
 	## test octal permissions and assert them if they're wrong.
+	VAR3=$(stat %a $1)
 	echo "Testing for $1 $2 $3"
-	if [ ! $(stat %a $1) == $2 ]; then
+	if [ ! "$VAR3" == $2 ]; then
 		echo "[Warn] $1 was not set with the correct permissions $2"
 		echo "[RUN] chmod $2 $1"
 		chmod -v $2 $1
@@ -20,8 +21,8 @@ function test_perm() {
 		echo "[Info] $1 has the correct permissions"
 	fi
 	## Test group and user permissions and assert them if they're wrong.
-	VAR1=stat %U $1
-	VAR2=stat %G $1
+	VAR1=$(stat %U $1)
+	VAR2=$(stat %G $1)
 	if [ ! "$VAR1:$VAR2" == $3 ]; then
 		echo "[Warn] $1 was not owned by the correct: user:group $3"
 		echo "[RUN] chown $1 $3"
