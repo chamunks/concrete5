@@ -41,18 +41,21 @@ console_break
 echo "[Info] Testing connection to MariaDB database"
 echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
 DBCHECK=$(mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME)
-echo $DBCHECK
+echo "[Info], mysqlshow indicates the presence of the database: $DBCHECK"
 
 console_break
+## To run database preseed or not to.  Then run the appliance.
 if [[ "$C5_PRESEED" == yes ]]; then
   echo $DBCHECK
-  if [[ "$DBCHECK" == "$DB_NAME" ]]; then
-    die() {
-    echo "[FAIL] You already have a database on the specified server."
-    echo "       please run this container with the environment variable C5_PRESEED set to no if you wish to start it without the database C5_PRESEED."
-    1>&2 ; exit 1; }
+  if [[ ! "$DBCHECK" == "$DB_NAME" ]]; then
+    echo The database $DB_NAME does not exist on $DB_USERNAME@$DB_SERVER.
+    ## This needs to be more advanced
+    # die() {
+    # echo "[FAIL] You already have a database on the specified server."
+    # echo "       please run this container with the environment variable C5_PRESEED set to no if you wish to start it without the database C5_PRESEED."
+    # 1>&2 ; exit 1; }
   else
-    echo "[Info] No DB Found at $DB_USERNAME@$DB_SERVER using password $DB_PASSWORD"
+    echo "[Info] No tables Found at $DB_USERNAME@$DB_SERVER in $DB_NAME using password $DB_PASSWORD"
     echo "[Info] Running C5 installation with the following settings"
     echo "[RUN]     /var/www/html/concrete/bin/concrete5 c5:install \
           --db-server=$DB_SERVER \
