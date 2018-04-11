@@ -52,11 +52,11 @@ function test_for_dir() {
 		CHK_PATH=$1
 		CHK_OWNERSHIP=$2
 		CHK_OCTAL=$3
-		## Check if directory is empty
-		if [ "$(ls -A $1)" ]; then
-			echo "[Info] $1 is not Empty. It contains:" 1>&2
-			ls -A 1>&2
-		fi
+		# ## Check if directory is empty
+		# if [ "$(ls -A $1)" ]; then
+		# 	echo "[Info] $1 is not Empty. It contains:" 1>&2
+		# 	ls -A 1>&2
+		# fi
 		CHK_PATH=$1
 		CHK_OWNERSHIP=$2
 		CHK_OCTAL=$3
