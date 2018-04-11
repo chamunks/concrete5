@@ -11,7 +11,7 @@ function change_count() {
 
 function test_perm() {
 	## test octal permissions and assert them if they're wrong.
-	if [ ! $(stat -a $1) = $2 ]; then
+	if [ ! $(stat -a $1) == $2 ]; then
 		echo "[Warn] $1 was not set to have the correct permissions $2"
 		echo "[RUN] chmod $2 $1"
 		chmod -v $2 $1
@@ -19,7 +19,7 @@ function test_perm() {
 		echo "[Info] $1 has the correct permissions"
 	fi
 	## Test group and user permissions and assert them if they're wrong.
-	if [ ! $($(stat -U $1):$(stat -G $1)) = $3 ]; then
+	if [ ! $($(stat -U $1):$(stat -G $1)) == $3 ]; then
 		echo "[Warn] $1 was not owned by the correct: user:group $3"
 		echo "[RUN] chown $1 $3"
 		chown -v $3 $1
