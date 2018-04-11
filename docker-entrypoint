@@ -80,9 +80,9 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		fi
 		echo "[Info] Concrete5 Version: $C5_VERSION"
 		echo "[RUN] chmod -R 775 /usr/local/src/concrete5-$C5_VERSION"
-		chmod -Rv 775 /usr/local/src/concrete5-$C5_VERSION
+		chmod -R 775 /usr/local/src/concrete5-$C5_VERSION
 		echo "[RUN] chown -R root:www-data /usr/local/src/concrete5-$C5_VERSION"
-		chown -Rv root:www-data /usr/local/src/concrete5-$C5_VERSION
+		chown -R root:www-data /usr/local/src/concrete5-$C5_VERSION
 		echo "[RUN] mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
 		mv -v /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
 
