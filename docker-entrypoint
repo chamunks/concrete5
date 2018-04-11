@@ -10,41 +10,35 @@ function change_count() {
 }
 
 function test_perm() {
-			## test octal permissions and assert them if they're wrong.
-			stat --help
-			echo "[Info] running test_perm function"
+	## This function should only be called by test_for_[dir|file] functions
+	echo "[Info] running test_perm function"
+			## setting variables
+
 			echo "[RUN] stat -c %a $1"
 			stat -c %a "$1"
-
-			VAR1=$(stat -c %U "$1")
-			VAR2=$(stat -c %G "$1")
-			VAR3=$(stat -c %a "$1")
-			CHK_PATH=$1
-			echo "Index1=$1"
-			echo "CHK_PATH=$CHK_PATH"
-			CHK_OWNERSHIP=$2
-			echo "Index2=$2"
-			echo "CHK_OWNERSHIP=$CHK_OWNERSHIP"
-			CHK_OCTAL=$3
+			CURRENT_UID=$(stat -c %U "$1")
+			CURRENT_GID=$(stat -c %G "$1")
+			CURRENT_OCTAL=$(stat -c %a "$1")
+			CURRENT_OWNERSHIP=$(echo $CURRENT_UID:$CURRENT_GID)
 			echo "Index3=$3"
 			echo "CHK_OCTAL=$CHK_OCTAL"
 			echo "Testing for $1 $2 $3"
 
-
-	if [ ! "$CHK_OCTAL" == $2 ]; then
-		echo "[Warn] $1 was not set with the correct permissions $2"
-		echo "[RUN] chmod $2 $1"
-		chmod -v $2 $1
+	## test octal permissions and assert them if they're wrong.
+	if [ ! "$CURRENT_OCTAL" == $CHK_OCTAL ]; then
+		echo "[Warn] $CHK_PATH was not set with the correct permissions $CHK_OCTAL"
+		echo "[RUN] chmod $CHK_OCTAL $CHK_PATH"
+		chmod -v $CHK_OCTAL $CHK_PATH
 	else
 		echo "[Info] $1 has the correct permissions"
 	fi
 	## Test group and user permissions and assert them if they're wrong.
-	if [ ! "$VAR1:$VAR2" == $3 ]; then
-		echo "[Warn] $1 was not owned by the correct: user:group $3"
-		echo "[RUN] chown $1 $3"
-		chown -v $3 $1
+	if [ ! "$CURRENT_OWNERSHIP" == $CHK_OWNERSHIP ]; then
+		echo "[Warn] $1 was not owned by the correct: user:group $CHK_OWNERSHIP"
+		echo "[RUN] chown $CHK_PATH $CHK_OCTAL"
+		chown -v $CHK_OCTAL $CHK_PATH
 	else
-		echo "[Info] $1 is owned by the correct user:group: $3"
+		echo "[Info] $CHK_PATH is owned by the correct user:group: $CHK_OCTAL"
 	fi
 }
 
@@ -54,39 +48,24 @@ function test_perm() {
 ## Var $3 should be your "user:group" names
 function test_for_dir() {
 	if [ ! -e '$1' ]; then
+		## Set variables from idices
+		CHK_PATH=$1
+		CHK_OWNERSHIP=$2
+		CHK_OCTAL=$3
 		## Check if directory is empty
 		if [ "$(ls -A $1)" ]; then
-			echo "[warn] $1 is not Empty. It contains:" 1>&2
+			echo "[Info] $1 is not Empty. It contains:" 1>&2
 			ls -A 1>&2
 		fi
-		##############DEBUG##############
 		CHK_PATH=$1
-		echo "Index1=$1"
-		echo "CHK_PATH=$CHK_PATH"
 		CHK_OWNERSHIP=$2
-		echo "Index2=$2"
-		echo "CHK_OWNERSHIP=$CHK_OWNERSHIP"
 		CHK_OCTAL=$3
-		echo "Index3=$3"
-		echo "CHK_OCTAL=$CHK_OCTAL"
-		##############DEBUG##############
 		test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL
 	else
 		echo "[Info] Directory $1 was missing, creating directory and setting permissions."
 		echo "[RUN] mkdir -pv $1"
 		mkdir -pv $1
-		test_perm $1 $2 $3
-		##############DEBUG##############
-		CHK_PATH=$1
-		echo "Index1=$1"
-		echo "CHK_PATH=$CHK_PATH"
-		CHK_OWNERSHIP=$2
-		echo "Index2=$2"
-		echo "CHK_OWNERSHIP=$CHK_OWNERSHIP"
-		CHK_OCTAL=$3
-		echo "Index3=$3"
-		echo "CHK_OCTAL=$CHK_OCTAL"
-		##############DEBUG##############
+		echo "[Info] test_for_dir is running test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
 		test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL
 	fi
 }
@@ -121,12 +100,12 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
 		echo "Concrete5 installed into /var/www/html"
 		# change required permissions incl. for multi-lingual sites
-		test_for_dir /var/www/html/application/files/ "root:www-data" 775
-		test_for_dir /var/www/html/application/config/ "root:www-data" 775
-		test_for_dir /var/www/html/packages/ "root:www-data" 775
-		test_for_dir /var/www/html/updates/ "root:www-data" 775
-		test_for_dir /var/www/html/application/languages/ "root:www-data" 775
-		test_for_dir /var/www/html/application/languages/site/ "root:www-data" 775
+		test_for_dir /var/www/html/application/files/ "root:www-data" 2775
+		test_for_dir /var/www/html/application/config/ "root:www-data" 2775
+		test_for_dir /var/www/html/packages/ "root:www-data" 2775
+		test_for_dir /var/www/html/updates/ "root:www-data" 2775
+		test_for_dir /var/www/html/application/languages/ "root:www-data" 2775
+		test_for_dir /var/www/html/application/languages/site/ "root:www-data" 2775
 
 		echo "[Info] copied Concrete5 and set permissions"
 fi
