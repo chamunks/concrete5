@@ -18,8 +18,7 @@ function test_perm() {
 			CURRENT_GID=$(stat -c %G "$1")
 			CURRENT_OCTAL=$(stat -c %a "$1")
 			CURRENT_OWNERSHIP=$(echo $CURRENT_UID:$CURRENT_GID)
-			echo "CHK_OCTAL=$CHK_OCTAL"
-			echo "test_perm for $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
+			echo "[Info] test_perm for $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
 	## test octal permissions and assert any needed corrections.
 	if [ ! "$CURRENT_OCTAL" == $CHK_OCTAL ]; then
 		echo "[Warn] $CHK_PATH was not set with the correct permissions $CHK_OCTAL"
