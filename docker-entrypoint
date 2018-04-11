@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "[Info] Running docker-entrypoint"
 set -e
 
 # include dot-files (if present) when coping into mounted volumes
