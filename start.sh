@@ -48,7 +48,7 @@ if [[ "$C5_PRESEED" == yes ]]; then
   if [[ "$DBCHECK" == "$DB_NAME" ]]; then
     die() {
     echo "[FAIL] You already have a database on the specified server."
-    echo "please run this container with the environment variable C5_PRESEED set to no if you wish to start it without the database C5_PRESEED."
+    echo "       please run this container with the environment variable C5_PRESEED set to no if you wish to start it without the database C5_PRESEED."
     1>&2 ; exit 1; }
   else
     echo "[Info] No DB Found at $DB_USERNAME@$DB_SERVER using password $DB_PASSWORD"
@@ -78,6 +78,6 @@ if [[ "$C5_PRESEED" == yes ]]; then
       apache2-foreground
   fi
   else
-    echo "Starting your Concrete5 installation"
+    echo "[DONE] Starting your Concrete5 installation"
     apache2-foreground
 fi
