@@ -16,7 +16,11 @@ function console_break() {
 
 function setup_conf() {
 	if [ ! -z "$1" ]; then
+    echo "[RUN] sed -i "s/$2/$1/g" $3"
 		sed -i "s/$2/$1/g" $3
+    OUT=$(cat ${3}|grep ${1})
+    ## If I want to keep this make it better using a test but for now it's just for debugging
+    echo "[Info] Configuration of ${1} is set at ${OUT}"
 	else
 		echo "[Info] $1 was not set leaving as default instead."
 	fi
