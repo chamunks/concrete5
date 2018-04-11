@@ -43,8 +43,11 @@ function test_for_dir() {
 			echo "[warn] $1 is not Empty. It contains:" 1>&2
 			ls -A 1>&2
 			DIR_PATH=$1
+			echo "DIR_PATH=$DIR_PATH"
 			DIR_OWNERSHIP=$2
+			echo "DIR_OWNERSHIP=$DIR_OWNERSHIP"
 			DIR_OCTAL=$3
+			echo "DIR_OCTAL"
 			test_perm $DIR_PATH $DIR_OWNERSHIP $DIR_OCTAL
 		fi
 	else
@@ -82,7 +85,7 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 				ls -A 1>&2
 		fi
 		echo "[RUN] mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
-		mv -v /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
+		mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
 		echo "Concrete5 installed into /var/www/html"
 		# change required permissions incl. for multi-lingual sites
 		test_for_dir /var/www/html/application/files/ "root:www-data" 775
