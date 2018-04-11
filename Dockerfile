@@ -59,8 +59,6 @@ RUN unzip -qq /usr/local/src/concrete5-${C5_VERSION}.zip -d /usr/local/src/  && 
     ls -lAh /usr/local/src/concrete5-${C5_VERSION} && \
     rm -v /usr/local/src/concrete5-${C5_VERSION}.zip
 
-## Add databa
-ADD config/database.php /var/www/html/config/database.php
 ADD config/database.php /usr/local/src/database.php
 ADD /php/docker-php-uploads.ini /usr/local/etc/php/conf.d/docker-php-uploads.ini
 ADD docker-entrypoint /bin/docker-entrypoint
