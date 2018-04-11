@@ -59,20 +59,6 @@ function test_for_file() {
 	fi
 }
 
-function setup_conf() {
-	if [ ! -z "$1" ]; then
-		sed -i "s/$2/$$1/g" $3
-	else
-		echo "[Info] $$1 was not set leaving as default instead."
-	fi
-}
-
-## Configure database.php
-setup_conf '$DB_SERVER' DBCONF_SERVER /var/www/html/config/database.php
-setup_conf '$DB_NAME' DBCONF_NAME /var/www/html/config/database.php
-setup_conf '$DB_USERNAME' DBCONF_USERNAME /var/www/html/config/database.php
-setup_conf '$DB_PASSWORD' DBCONF_PASSWORD /var/www/html/config/database.php
-
 # if empty, copy apache2 configuration to volume
 if [ ! "$(ls -A /etc/apache2)" ]; then
 		echo "[Info] apache2 configuration dir was empty installing alternative."
