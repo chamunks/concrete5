@@ -8,7 +8,7 @@
 echo "[Info] Running start script"
 sleep 30
 function console_break() {
-  for i in {1..5}; do
+  for i in {1..2}; do
     echo
   done
 }
@@ -22,7 +22,7 @@ function setup_conf() {
 }
 
 console_break
-# if empty, copy database.php configuration to volume
+echo "[Info] If empty, copy database.php configuration to volume"
 if [ ! -e /var/www/html/config/database.php ]; then
 		echo "[Info] /var/www/html/config/database.php is missing installing alternative."
 		echo "[RUN] cp /usr/local/src/database.php /etc/apache2"
@@ -31,6 +31,7 @@ if [ ! -e /var/www/html/config/database.php ]; then
 fi
 
 ## Configure database.php
+echo "[Info] Installing configuration changes."
 setup_conf '$DB_SERVER' DBCONF_SERVER /var/www/html/config/database.php
 setup_conf '$DB_NAME' DBCONF_NAME /var/www/html/config/database.php
 setup_conf '$DB_USERNAME' DBCONF_USERNAME /var/www/html/config/database.php
@@ -39,7 +40,7 @@ setup_conf '$DB_PASSWORD' DBCONF_PASSWORD /var/www/html/config/database.php
 console_break
 echo "[Info] Testing connection to MariaDB database"
 echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
-DBCHECK=`mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME`
+DBCHECK=$(mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME)
 eval $DBCHECK
 
 console_break
