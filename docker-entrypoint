@@ -13,17 +13,13 @@ function test_perm() {
 	## This function should only be called by test_for_[dir|file] functions
 	echo "[Info] running test_perm function"
 			## setting variables
-
-			echo "[RUN] stat -c %a $1"
-			stat -c %a "$1"
 			CURRENT_UID=$(stat -c %U "$1")
 			CURRENT_GID=$(stat -c %G "$1")
 			CURRENT_OCTAL=$(stat -c %a "$1")
 			CURRENT_OWNERSHIP=$(echo $CURRENT_UID:$CURRENT_GID)
 			echo "CHK_OCTAL=$CHK_OCTAL"
 			echo "test_perm for $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
-
-	## test octal permissions and assert them if they're wrong.
+	## test octal permissions and assert any needed corrections.
 	if [ ! "$CURRENT_OCTAL" == $CHK_OCTAL ]; then
 		echo "[Warn] $CHK_PATH was not set with the correct permissions $CHK_OCTAL"
 		echo "[RUN] chmod $CHK_OCTAL $CHK_PATH"
@@ -47,11 +43,11 @@ function test_perm() {
 ## Var $2 should be your octal permissions for said directory.
 ## Var $3 should be your "user:group" names
 function test_for_dir() {
+	## Set variables from idices
+	CHK_PATH=$1
+	CHK_OWNERSHIP=$2
+	CHK_OCTAL=$3
 	if [ -d '$1' ]; then
-		## Set variables from idices
-		CHK_PATH=$1
-		CHK_OWNERSHIP=$2
-		CHK_OCTAL=$3
 		# ## Check if directory is empty
 		# if [ "$(ls -A $1)" ]; then
 		# 	echo "[Info] $1 is not Empty. It contains:" 1>&2
