@@ -42,7 +42,7 @@ echo "[Info] Testing connection to MariaDB database"
 echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
 DBCHECK=$(mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME)
 DBCHECK_RESULT=${DBCHECK}
-echo "[Info], mysqlshow indicates the presence of the database: $DBCHECK"
+echo "[Info], mysqlshow indicates the presence of the database: $DBCHECK_RESULT"
 
 console_break
 ## To run database preseed or not to.  Then run the appliance.
