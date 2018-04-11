@@ -10,8 +10,10 @@ function change_count() {
 }
 
 function test_perm() {
+	echo $1 $2 $3
 	## test octal permissions and assert them if they're wrong.
 	VAR3=$(stat %a $1)
+	echo VAR3 is $VAR3 1: $1 2: $2 3: $3
 	echo "Testing for $1 $2 $3"
 	if [ ! "$VAR3" == $2 ]; then
 		echo "[Warn] $1 was not set with the correct permissions $2"
@@ -92,7 +94,6 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		echo "[Info] copied Concrete5 and set permissions"
 fi
 
-chown -R root:www-data /var/www/html
 echo "[RUN] chmod -R 775 /var/www/html/packages"
 chmod -R 775 /var/www/html/packages
 echo "[RUN] chmod -R 775 /var/www/html/application/config"
