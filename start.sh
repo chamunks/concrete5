@@ -12,6 +12,14 @@ function console_break() {
   done
 }
 
+function setup_conf() {
+	if [ ! -z "$1" ]; then
+		sed -i "s/$2/$$1/g" $3
+	else
+		echo "[Info] $$1 was not set leaving as default instead."
+	fi
+}
+
 console_break
 # if empty, copy database.php configuration to volume
 if [ ! -e /var/www/html/config/database.php ]; then
@@ -20,6 +28,12 @@ if [ ! -e /var/www/html/config/database.php ]; then
 		cp /usr/local/src/database.php /var/www/html/config/database.php
 		echo "[Info] copied database.php configuration into /var/www/html/config/database.php"
 fi
+
+## Configure database.php
+setup_conf '$DB_SERVER' DBCONF_SERVER /var/www/html/config/database.php
+setup_conf '$DB_NAME' DBCONF_NAME /var/www/html/config/database.php
+setup_conf '$DB_USERNAME' DBCONF_USERNAME /var/www/html/config/database.php
+setup_conf '$DB_PASSWORD' DBCONF_PASSWORD /var/www/html/config/database.php
 
 console_break
 echo "[Info] Testing connection to MariaDB database"
