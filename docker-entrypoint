@@ -47,7 +47,7 @@ function test_perm() {
 ## Var $2 should be your octal permissions for said directory.
 ## Var $3 should be your "user:group" names
 function test_for_dir() {
-	if [ ! -e '$1' ]; then
+	if [ ! -d '$1' ]; then
 		## Set variables from idices
 		CHK_PATH=$1
 		CHK_OWNERSHIP=$2
