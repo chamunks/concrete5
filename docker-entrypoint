@@ -20,9 +20,8 @@ function test_perm() {
 			CURRENT_GID=$(stat -c %G "$1")
 			CURRENT_OCTAL=$(stat -c %a "$1")
 			CURRENT_OWNERSHIP=$(echo $CURRENT_UID:$CURRENT_GID)
-			echo "Index3=$3"
 			echo "CHK_OCTAL=$CHK_OCTAL"
-			echo "Testing for $1 $2 $3"
+			echo "test_perm for $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
 
 	## test octal permissions and assert them if they're wrong.
 	if [ ! "$CURRENT_OCTAL" == $CHK_OCTAL ]; then
@@ -34,11 +33,12 @@ function test_perm() {
 	fi
 	## Test group and user permissions and assert them if they're wrong.
 	if [ ! "$CURRENT_OWNERSHIP" == $CHK_OWNERSHIP ]; then
-		echo "[Warn] $1 was not owned by the correct: user:group $CHK_OWNERSHIP"
-		echo "[RUN] chown $CHK_PATH $CHK_OCTAL"
+		echo "[Warn] $CHK_PATH did does not have the correct permissions.
+		echo "[Warn] $CHK_PATH has $CURRENT_OCTAL it needs to have $CHK_OWNERSHIP"
+		echo "[RUN] chown -v $CHK_PATH $CHK_OCTAL"
 		chown -v $CHK_OCTAL $CHK_PATH
 	else
-		echo "[Info] $CHK_PATH is owned by the correct user:group: $CHK_OCTAL"
+		echo "[Info] $CHK_PATH is owned by the correct user:group $CHK_OCTAL"
 	fi
 }
 
