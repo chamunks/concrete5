@@ -33,7 +33,7 @@ function test_perm() {
 	fi
 	## Test group and user permissions and assert them if they're wrong.
 	if [ ! "$CURRENT_OWNERSHIP" == $CHK_OWNERSHIP ]; then
-		echo "[Warn] $CHK_PATH did does not have the correct permissions.
+		echo "[Warn] $CHK_PATH did does not have the correct permissions."
 		echo "[Warn] $CHK_PATH has $CURRENT_OCTAL it needs to have $CHK_OWNERSHIP"
 		echo "[RUN] chown -v $CHK_PATH $CHK_OCTAL"
 		chown -v $CHK_OCTAL $CHK_PATH
