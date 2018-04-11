@@ -33,10 +33,10 @@ fi
 
 ## Configure database.php
 echo "[Info] Installing configuration changes."
-setup_conf '$DB_SERVER' DBCONF_SERVER /var/www/html/config/database.php
-setup_conf '$DB_NAME' DBCONF_NAME /var/www/html/config/database.php
-setup_conf '$DB_USERNAME' DBCONF_USERNAME /var/www/html/config/database.php
-setup_conf '$DB_PASSWORD' DBCONF_PASSWORD /var/www/html/config/database.php
+setup_conf "${DB_SERVER}" DBCONF_SERVER /var/www/html/config/database.php
+setup_conf "${DB_NAME}" DBCONF_NAME /var/www/html/config/database.php
+setup_conf "${DB_USERNAME}" DBCONF_USERNAME /var/www/html/config/database.php
+setup_conf "${DB_PASSWORD}" DBCONF_PASSWORD /var/www/html/config/database.php
 
 console_break
 echo "[Info] Testing connection to MariaDB database"
