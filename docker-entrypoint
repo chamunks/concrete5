@@ -104,9 +104,9 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 fi
 
 echo "[RUN] chmod -R 775 /var/www/html/packages"
-chmod -R 775 /var/www/html/packages
+chmod -R 2775 /var/www/html/packages
 echo "[RUN] chmod -R 775 /var/www/html/application/config"
-chmod -R 775 /var/www/html/application/config
+chmod -R 2775 /var/www/html/application/config
 
 # else default to run whatever the user wanted like "bash"
 exec "$@"
