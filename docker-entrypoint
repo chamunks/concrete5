@@ -13,12 +13,12 @@ function test_perm() {
 			## test octal permissions and assert them if they're wrong.
 			stat --help
 			echo "[Info] running test_perm function"
-			echo "[RUN] stat %a $1"
-			stat %a "$1"
+			echo "[RUN] stat -c %a $1"
+			stat -c %a "$1"
 
-			VAR1=$(stat %U "$1")
-			VAR2=$(stat %G "$1")
-			VAR3=$(stat %a "$1")
+			VAR1=$(stat -c %U "$1")
+			VAR2=$(stat -c %G "$1")
+			VAR3=$(stat -c %a "$1")
 			CHK_PATH=$1
 			echo "Index1=$1"
 			echo "CHK_PATH=$CHK_PATH"
