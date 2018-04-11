@@ -4,11 +4,11 @@
 db:
   image: mariadb
   restart: always
-  #############################################################################
+  ##############################################################################
   ## Database configuration
   ## As mentioned in the README.md file you should really change the values
   ## after the equals sign below in the environment directive values.
-  #############################################################################
+  ##############################################################################
   environment:
   - MYSQL_ROOT_PASSWORD=c5db_database_root_password
   - MYSQL_USER=c5db_user
@@ -17,18 +17,18 @@ db:
   log_opt:
     max-size: "256k"
     max-file: "10"
-  #############################################################################
+  ##############################################################################
   ## host volume, you may consider using actual docker volumes in the future.
-  #############################################################################
+  ##############################################################################
   volumes:
     - ./data/var/lib/mysql:/var/lib/mysql
   networks:
     green:
-      ###################################################################
+      ##########################################################################
       ## You can define the IP addresses statically here if you linked
       ## You will have to uncomment the ipam config line below in the
       ## Networks block at the bottom.
-      ###################################################################
+      ##########################################################################
       ipv4_address: 10.5.0.5
       aliases:
         - mysql
@@ -47,21 +47,21 @@ web:
   log_opt:
     max-size: "512k"
     max-file: "50"
-  #############################################################################
+  ##############################################################################
   ## host volumes
-  ## You can uncomment this section if you want to enable host based Volumes
-  #############################################################################
+  ## You can comment this section out if you want to disable host based Volumes
+  ##############################################################################
   volumes:
     - ./data/etc/apache2:/etc/apache2
     - ./data/html:/var/www/html
     - ./data/config:/var/www/html/config
   networks:
     green:
-      ###################################################################
+      ##########################################################################
       ## You can define the IP addresses statically here if you linked
       ## You will have to uncomment the ipam config line below in the
       ## Networks block at the bottom.
-      ###################################################################
+      ##########################################################################
       ipv4_address: 10.5.0.6
 
 #########################
