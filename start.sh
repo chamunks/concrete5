@@ -5,15 +5,35 @@
 ## * That you're using the default mysql port
 ## * That you just want C5 running instantly at first.
 ## * That you can set environment variables in your setup
+
+function console_break() {
+  for i in {1..5}; do
+    echo
+  done
+}
+
+console_break
+# if empty, copy database.php configuration to volume
+if [ ! -e /var/www/html/config/database.php ]; then
+		echo "[Info] /var/www/html/config/database.php is missing installing alternative."
+		echo "[RUN] cp /usr/local/src/database.php /etc/apache2"
+		cp /usr/local/src/database.php /var/www/html/config/database.php
+		echo "[Info] copied database.php configuration into /var/www/html/config/database.php"
+fi
+
+console_break
 echo "[Info] Testing connection to MariaDB database"
 echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
-mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME
-if [[ "$C5_PRESEED" = yes ]]; then
-  DBCHECK=`mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME`
-  if [[ "$dbcheck" == "$DB_NAME" ]]; then
+DBCHECK=`mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME`
+eval $DBCHECK
+
+console_break
+if [[ "$C5_PRESEED" == yes ]]; then
+  echo $DBCHECK
+  if [[ "$DBCHECK" == "$DB_NAME" ]]; then
     die() {
     echo "[FAIL] You already have a database on the specified server."
-    echo "please run this container with the environment variable C5_PRESEED set to false if you wish to start it without the database C5_PRESEED."
+    echo "please run this container with the environment variable C5_PRESEED set to no if you wish to start it without the database C5_PRESEED."
     1>&2 ; exit 1; }
   else
     echo "[Info] No DB Found at $DB_USERNAME@$DB_SERVER using password $DB_PASSWORD"
