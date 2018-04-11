@@ -15,5 +15,4 @@ build:
 trigger_build:
   stage: deploy
   script:
-  - "curl -X POST -F token=[PIPELINE_TRIGGER] -F ref=[CI_COMMIT_REF_NAME] https://gitlab.com/api/v4/projects/5862399/trigger/pipeline"
-  #FORCEBUILD
+  - "curl -X POST https://gitlab.com/api/v4/projects/5862399/ref/REF_NAME/trigger/pipeline?token=${PIPELINE_TRIGGER}"
