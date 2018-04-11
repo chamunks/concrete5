@@ -12,4 +12,5 @@ build:
   #- docker tag registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest
   - docker push registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest
   - docker pull registry.gitlab.com/chamunks/concrete5/$CI_COMMIT_REF_NAME:latest
+  - echo "[RUN] curl -X POST -F token=$PIPELINE_TRIGGER -F ref=$CI_COMMIT_REF_NAME https://gitlab.com/api/v4/projects/5862399/trigger/pipeline"
   - "curl -X POST -F token=$PIPELINE_TRIGGER -F ref=$CI_COMMIT_REF_NAME https://gitlab.com/api/v4/projects/5862399/trigger/pipeline"
