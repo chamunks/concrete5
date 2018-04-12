@@ -34,7 +34,7 @@ ENV C5_PRESEED        yes
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 RUN chmod uga+x /usr/local/bin/install-php-extensions && \
     sync && \
-    install-php-extensions gd xdebug imagick
+    install-php-extensions xdebug imagick gd mysqli zip pdo_mysql
 
 ## Only including some of the dependencies for now from
 ## https://documentation.concrete5.org/developers/installation/system-requirements
@@ -46,11 +46,11 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libjpeg62-turbo-dev \
     libfreetype6-dev && \
-    docker-php-ext-install mysqli && \
-    docker-php-ext-install zip && \
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install -j$(nproc) gd && \
-    docker-php-ext-install pdo_mysql && \
+    # docker-php-ext-install mysqli && \
+    # docker-php-ext-install zip && \
+    # docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+    # docker-php-ext-install -j$(nproc) gd && \
+    # docker-php-ext-install pdo_mysql && \
     docker-php-source delete && \
     rm -rf /var/lib/apt/lists/* && \
     a2enmod rewrite
