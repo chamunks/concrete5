@@ -45,8 +45,8 @@ setup_conf "${DB_PASSWORD}" DBCONF_PASSWORD /var/www/html/config/database.php
 console_break
 echo "[Info] Testing connection to MariaDB database"
 echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
-DBCHECK=$(mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME)
-mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME
+DBCHECK=$(mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD POTATO| grep -v Wildcard | grep -o POTATO)
+mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD POTATO| grep -v Wildcard | grep -o POTATO
 echo "[Info] Waiting for a grace period to let MariaDB get over the fact we've connected to it already once."
 sleep 10s
 DBCHECK_RESULT=${DBCHECK}
