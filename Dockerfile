@@ -29,6 +29,12 @@ ENV C5_PASSWORD       default
 ENV C5_LOCALE         en_US
 ENV C5_PRESEED        yes
 
+## Install fancy wrapper from Concrete5 Slack's own mlocati.
+## https://github.com/mlocati/docker-php-extension-installer
+ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+RUN chmod uga+x /usr/local/bin/install-php-extensions && \
+    sync && \
+    install-php-extensions gd xdebug imagick
 
 ## Only including some of the dependencies for now from
 ## https://documentation.concrete5.org/developers/installation/system-requirements
@@ -40,8 +46,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
-    libmagickwand-dev && \
-    docker-php-ext-install imagick && \
     docker-php-ext-install mysqli && \
     docker-php-ext-install zip && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
