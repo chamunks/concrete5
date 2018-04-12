@@ -7,7 +7,7 @@
 ## * That you can set environment variables in your setup
 echo "[Info] Running start script"
 echo "[Info] Waiting for a grace period to let MariaDB start up."
-sleep 30s
+sleep 5s
 function console_break() {
   for i in {1..2}; do
     echo
