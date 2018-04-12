@@ -16,4 +16,4 @@ trigger_build:
   stage: deploy
   script:
   - "curl -X POST https://gitlab.com/api/v4/projects/5862399/ref/REF_NAME/trigger/pipeline?token=${PIPELINE_TRIGGER}"
-  #FORCEBUILD again
+  #FORCEBUILD again2x
