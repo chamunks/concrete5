@@ -15,6 +15,4 @@ build:
 trigger_build:
   stage: deploy
   script:
-  - echo "[RUN] curl -X POST -F token=$PIPELINE_TRIGGER -F ref=$CI_COMMIT_REF_NAME https://gitlab.com/api/v4/projects/5862399/trigger/pipeline"
-  - DEPLOY=$(curl -X POST -F token=$PIPELINE_TRIGGER -F ref=$CI_COMMIT_REF_NAME https://gitlab.com/api/v4/projects/5862399/trigger/pipeline)
-  - eval $DEPLOY
+  - curl -X POST -F token=${PIPELINE_TRIGGER} -F ref=master https://gitlab.com/api/v4/projects/5862399/trigger/pipeline
