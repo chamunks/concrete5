@@ -25,22 +25,22 @@ function setup_conf() {
 		echo "[Info] $1 was not set leaving as default instead."
 	fi
 }
-
-console_break
-echo "[Info] If empty, copy database.php configuration to volume"
-if [ ! -e /var/www/html/config/database.php ]; then
-		echo "[Info] /var/www/html/config/database.php is missing installing alternative."
-		echo "[RUN] cp /usr/local/src/database.php /var/www/html/config/database.php"
-		cp /usr/local/src/database.php /var/www/html/config/database.php
-		echo "[Info] copied database.php configuration into /var/www/html/config/database.php"
-fi
-
-## Configure database.php
-echo "[Info] Installing configuration changes."
-setup_conf "${DB_SERVER}" DBCONF_SERVER /var/www/html/config/database.php
-setup_conf "${DB_NAME}" DBCONF_NAME /var/www/html/config/database.php
-setup_conf "${DB_USERNAME}" DBCONF_USERNAME /var/www/html/config/database.php
-setup_conf "${DB_PASSWORD}" DBCONF_PASSWORD /var/www/html/config/database.php
+## Disabling config installation for now.  It may conflict with the invocation.
+# console_break
+# echo "[Info] If empty, copy database.php configuration to volume"
+# if [ ! -e /var/www/html/config/database.php ]; then
+# 		echo "[Info] /var/www/html/config/database.php is missing installing alternative."
+# 		echo "[RUN] cp /usr/local/src/database.php /var/www/html/config/database.php"
+# 		cp /usr/local/src/database.php /var/www/html/config/database.php
+# 		echo "[Info] copied database.php configuration into /var/www/html/config/database.php"
+# fi
+#
+# ## Configure database.php
+# echo "[Info] Installing configuration changes."
+# setup_conf "${DB_SERVER}" DBCONF_SERVER /var/www/html/config/database.php
+# setup_conf "${DB_NAME}" DBCONF_NAME /var/www/html/config/database.php
+# setup_conf "${DB_USERNAME}" DBCONF_USERNAME /var/www/html/config/database.php
+# setup_conf "${DB_PASSWORD}" DBCONF_PASSWORD /var/www/html/config/database.php
 
 console_break
 echo "[Info] Testing connection to MariaDB database"
@@ -68,7 +68,7 @@ if [[ "$C5_PRESEED" == yes ]]; then
     echo "[Info] No tables Found at $DB_USERNAME@$DB_SERVER in $DB_NAME using password $DB_PASSWORD"
     echo "[Info] Running C5 installation with the following settings"
     echo "[RUN]  /var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE"
-    # /var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE
+    /var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE
   fi
   else
     echo "[DONE] Starting your Concrete5 installation"
