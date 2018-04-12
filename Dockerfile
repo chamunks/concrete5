@@ -40,13 +40,15 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
-    imagemagick && \
+    libmagickwand-dev && \
+    docker-php-ext-install imagick && \
     docker-php-ext-install mysqli && \
     docker-php-ext-install zip && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
     docker-php-ext-install -j$(nproc) gd && \
     docker-php-ext-install pdo_mysql && \
     docker-php-source delete && \
+    rm -rf /var/lib/apt/lists/* && \
     a2enmod rewrite
 
 ## get a copy of Concrete5 and store it for deployment on container launch.
