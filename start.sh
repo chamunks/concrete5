@@ -30,7 +30,7 @@ console_break
 echo "[Info] If empty, copy database.php configuration to volume"
 if [ ! -e /var/www/html/config/database.php ]; then
 		echo "[Info] /var/www/html/config/database.php is missing installing alternative."
-		echo "[RUN] cp /usr/local/src/database.php /etc/apache2"
+		echo "[RUN] cp /usr/local/src/database.php /var/www/html/config/database.php"
 		cp /usr/local/src/database.php /var/www/html/config/database.php
 		echo "[Info] copied database.php configuration into /var/www/html/config/database.php"
 fi
