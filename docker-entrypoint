@@ -43,7 +43,6 @@ function test_perm() {
 ## Var $2 should be your octal permissions for said directory.
 ## Var $3 should be your "user:group" names
 function test_for_dir() {
-<<<<<<< HEAD
 	## Set variables from idices
 	CHK_PATH=$1
 	CHK_OWNERSHIP=$2
@@ -76,55 +75,6 @@ if [ ! "$(ls -A /etc/apache2)" ]; then
 		echo "[RUN] cp -r /usr/local/etc/apache2/* /etc/apache2"
 		cp -r /usr/local/etc/apache2/* /etc/apache2
 		echo "[Info] copied apache2 configuration directory"
-=======
-	if [ ! -e '$1' ]; then
-			cd /var/www/html/
-			if [ "$(ls -A $1)" ]; then
-					echo "[warn] $1 is not Empty. It contains:" 1>&2
-					ls -A 1>&2
-					echo "Asserting permissions on $1"
-					chmod -Rv 775 $1
-					chown -Rv $2 $1
-			fi
-		else
-			echo Directory $1 was missing, creating directory and setting permissions.
-			mkdir -pv $1
-			chmod -Rv 775 $1
-			chown -Rv $2 $1
-		fi
-}
-
-## Configure database.php
-file_env 'DB_SERVER'
-if [ ! -z "$DB_SERVER" ]; then
-			sed -i 's/DB_SERVER/$DB_SERVER/g' /var/www/html/config/database.php
-		else
-			sed -i 's/DB_SERVER/localhost/g' /var/www/html/config/database.php
-		fi
-file_env 'DB_NAME'
-if [ ! -z "$DB_NAME" ]; then
-			sed -i 's/DB_NAME/$DB_NAME/g' /var/www/html/config/database.php
-		else
-			sed -i 's/DB_NAME/c5db/g' /var/www/html/config/database.php
-		fi
-file_env 'DB_USERNAME'
-if [ ! -z "$DB_USERNAME" ]; then
-			sed -i 's/DB_USERNAME/$DB_USERNAME/g' /var/www/html/config/database.php
-		else
-			sed -i 's/DB_USERNAME/defaultuser/g' /var/www/html/config/database.php
-		fi
-file_env 'DB_PASSWORD'
-if [ ! -z "$DB_PASSWORD" ]; then
-			sed -i 's/DB_PASSWORD/$DB_PASSWORD/g' /var/www/html/config/database.php
-		else
-			sed -i 's/DB_PASSWORD/defaultpassword/g' /var/www/html/config/database.php
-		fi
-
-# if empty, copy apache2 configuration to volume
-if [ ! "$(ls -A /etc/apache2)" ]; then
-		cp -r /usr/local/etc/apache2/* /etc/apache2
-		echo "[info] copied apache2 configuration directory"
->>>>>>> fcf18ba7912b6ed8f767d48f23728cab8c954efc
 fi
 
 # if Concrete5 is not yet installed, copy it into web root.
@@ -132,7 +82,6 @@ fi
 echo "[RUN] ls /var/www/html/"
 ls /var/www/html/
 if [ ! -e '/var/www/html/config/concrete.php' ]; then
-<<<<<<< HEAD
 		if [ "$(ls -A /var/www/html)" ]; then
 			echo "[Warn] /var/www/html/ is not Empty. It contains:" 1>&2
 			ls -A 1>&2
@@ -152,25 +101,6 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		test_for_dir /var/www/html/application/languages/ "root:www-data" 2775
 		test_for_dir /var/www/html/application/languages/site/ "root:www-data" 2775
 		echo "[Info] copied Concrete5 and set permissions"
-=======
-		cd /var/www/html/
-		if [ "$(ls -A /var/www/html)" ]; then
-				echo "[warn] /var/www/html/ is not Empty. It contains:" 1>&2
-				ls -A 1>&2
-		fi
-		echo "[info] Concrete5 Version: ${C5_VERSION}"
-		cp -r /usr/local/src/concrete5-${C5_VERSION}/* /var/www/html
-
-		# change required permissions incl. for multi-lingual sites
-		test_for_dir /var/www/html/application/files/ root:www-data
-		test_for_dir /var/www/html/application/config/ root:www-data
-		test_for_dir /var/www/html/packages/ root:www-data
-		test_for_dir /var/www/html/updates/ root:www-data
-		test_for_dir /var/www/html/application/languages/ root:www-data
-		test_for_dir /var/www/html/application/languages/site root:www-data
-
-		echo "[info] copied Concrete5 and set permissions"
->>>>>>> fcf18ba7912b6ed8f767d48f23728cab8c954efc
 fi
 
 echo "[RUN] chmod -R 775 /var/www/html/packages"
