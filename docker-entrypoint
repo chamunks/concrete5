@@ -1,40 +1,62 @@
 #!/bin/bash
-echo "[Info] Running docker-entrypoint"
+echof info "Running docker-entrypoint"
 set -e
 
 # include dot-files (if present) when coping into mounted volumes
 shopt -s dotglob
 
+## Function echo_fancy echof
+## Colorize and fancify console output.
+## Useage: echof [run|warn|info] {Message}
+function echof() {
+	LGREEN_STDOUT='\033[1;32m'
+	YELLOW_STDOUT='\033[1;33m'
+	BLUE_STDOUT='\033[0;34'
+  DGRAY_STDOUT='\033[1:30m'
+  WHITE_STDOUT='\033[1;37m'
+	case $1 in
+		run )
+			echo "[${LGREEN_STDOUT}RUN${WHITE_STDOUT}]  $2"
+			;;
+		warn )
+			echo "[${YELLOW_STDOUT}Warn${WHITE_STDOUT}] $2"
+			;;
+		info )
+			echo "[${BLUE_STDOUT}Info${WHITE_STDOUT}] ${DGRAY_STDOUT}$2"
+			;;
+		esac
+}
+
 ## a nice tidy linecounter and echo response to keep things clean.
 function change_count() {
-	read LINECOUNT && echo "[Info] There were $LINECOUNT changes made."
+	read LINECOUNT && echof info "There were $LINECOUNT changes made."
 }
 
 function test_perm() {
 	## This function should only be called by test_for_[dir|file] functions
-	echo "[Info] running test_perm function"
+	echof info "running test_perm function"
 			## setting variables
 			CURRENT_UID=$(stat -c %U "$1")
 			CURRENT_GID=$(stat -c %G "$1")
 			CURRENT_OCTAL=$(stat -c %a "$1")
 			CURRENT_OWNERSHIP=$(echo $CURRENT_UID:$CURRENT_GID)
-			echo "[Info] test_perm for $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
+			echof info "test_perm for $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
 	## test octal permissions and assert any needed corrections.
 	if [ ! "$CURRENT_OCTAL" == $CHK_OCTAL ]; then
-		echo "[Warn] $CHK_PATH was not set with the correct permissions $CHK_OCTAL"
-		echo "[RUN] chmod $CHK_OCTAL $CHK_PATH"
+		echof warn "$CHK_PATH was not set with the correct permissions $CHK_OCTAL"
+		echof run "chmod $CHK_OCTAL $CHK_PATH"
 		chmod -v $CHK_OCTAL $CHK_PATH
 	else
-		echo "[Info] $1 has the correct permissions"
+		echof info "$1 has the correct permissions"
 	fi
 	## Test group and user permissions and assert them if they're wrong.
 	if [ ! "$CURRENT_OWNERSHIP" == $CHK_OWNERSHIP ]; then
-		echo "[Warn] $CHK_PATH did does not have the correct permissions."
-		echo "[Warn] $CHK_PATH has $CURRENT_OCTAL it needs to have $CHK_OWNERSHIP"
-		echo "[RUN] chown -v $CHK_PATH $CHK_OCTAL"
+		echof warn "$CHK_PATH did does not have the correct permissions."
+		echof warn "$CHK_PATH has $CURRENT_OCTAL it needs to have $CHK_OWNERSHIP"
+		echof run "chown -v $CHK_PATH $CHK_OCTAL"
 		chown -v $CHK_OCTAL $CHK_PATH
 	else
-		echo "[Info] $CHK_PATH is owned by the correct user:group $CHK_OCTAL"
+		echof info "$CHK_PATH is owned by the correct user:group $CHK_OCTAL"
 	fi
 }
 
@@ -50,10 +72,10 @@ function test_for_dir() {
 	if [ -d '$1' ]; then
 		test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL
 	else
-		echo "[Info] Directory $1 was missing, creating directory and setting permissions."
-		echo "[RUN] mkdir -pv $1"
+		echof info "Directory $1 was missing, creating directory and setting permissions."
+		echof run "mkdir -pv $1"
 		mkdir -pv $1
-		echo "[Info] test_for_dir is running test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
+		echof info "test_for_dir is running test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
 		test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL
 	fi
 }
@@ -71,25 +93,25 @@ function test_for_file() {
 
 # if empty, copy apache2 configuration to volume
 if [ ! "$(ls -A /etc/apache2)" ]; then
-		echo "[Info] apache2 configuration dir was empty installing alternative."
-		echo "[RUN] cp -r /usr/local/etc/apache2/* /etc/apache2"
+		echof info "apache2 configuration dir was empty installing alternative."
+		echof run "cp -r /usr/local/etc/apache2/* /etc/apache2"
 		cp -r /usr/local/etc/apache2/* /etc/apache2
-		echo "[Info] copied apache2 configuration directory"
+		echof info "copied apache2 configuration directory"
 fi
 
 # if Concrete5 is not yet installed, copy it into web root.
 # This could be updated to be part of an upgrade mechanism.
-echo "[RUN] ls /var/www/html/"
+echof run "ls /var/www/html/"
 ls /var/www/html/
 if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		if [ "$(ls -A /var/www/html)" ]; then
-			echo "[Warn] /var/www/html/ is not Empty. It contains:" 1>&2
+			echof warn "/var/www/html/ is not Empty. It contains:" 1>&2
 			ls -A 1>&2
-			echo "[Info] Making an attempt to nicely merge files using."
-			echo "[RUN] mv -fnu /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
+			echof info "Making an attempt to nicely merge files using."
+			echof run "mv -fnu /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
 			mv -fnu /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
 		else
-			echo "[RUN] mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
+			echof run "mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
 			mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
 		fi
 		echo "Concrete5 installed into /var/www/html"
@@ -100,12 +122,12 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		test_for_dir /var/www/html/updates/ "root:www-data" 2775
 		test_for_dir /var/www/html/application/languages/ "root:www-data" 2775
 		test_for_dir /var/www/html/application/languages/site/ "root:www-data" 2775
-		echo "[Info] copied Concrete5 and set permissions"
+		echof info "copied Concrete5 and set permissions"
 fi
 
-echo "[RUN] chmod -R 775 /var/www/html/packages"
+echof run "chmod -R 775 /var/www/html/packages"
 chmod -R 2775 /var/www/html/packages
-echo "[RUN] chmod -R 775 /var/www/html/application/config"
+echof run "chmod -R 775 /var/www/html/application/config"
 chmod -R 2775 /var/www/html/application/config
 
 # else default to run whatever the user wanted like "bash"
