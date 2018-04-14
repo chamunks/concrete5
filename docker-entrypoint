@@ -110,19 +110,19 @@ if [ ! -e '/var/www/html/config/concrete.php' ]; then
 		fi
 		echo "Concrete5 installed into /var/www/html"
 		# change required permissions incl. for multi-lingual sites
-		test_for_dir /var/www/html/application/files/ "root:www-data" 2775
-		test_for_dir /var/www/html/application/config/ "root:www-data" 2775
-		test_for_dir /var/www/html/packages/ "root:www-data" 2775
-		test_for_dir /var/www/html/updates/ "root:www-data" 2775
-		test_for_dir /var/www/html/application/languages/ "root:www-data" 2775
-		test_for_dir /var/www/html/application/languages/site/ "root:www-data" 2775
+		test_for_dir /var/www/html/application/files/ "root:www-data" 775
+		test_for_dir /var/www/html/application/config/ "root:www-data" 775
+		test_for_dir /var/www/html/packages/ "root:www-data" 775
+		test_for_dir /var/www/html/updates/ "root:www-data" 775
+		test_for_dir /var/www/html/application/languages/ "root:www-data" 775
+		test_for_dir /var/www/html/application/languages/site/ "root:www-data" 775
 		echof info "copied Concrete5 and set permissions"
 fi
 
 echof run "chmod -R 775 /var/www/html/packages"
-chmod -R 2775 /var/www/html/packages
+chmod -R 775 /var/www/html/packages
 echof run "chmod -R 775 /var/www/html/application/config"
-chmod -R 2775 /var/www/html/application/config
+chmod -R 775 /var/www/html/application/config
 
 # else default to run whatever the user wanted like "bash"
 exec "$@"
