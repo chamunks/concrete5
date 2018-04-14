@@ -5,32 +5,27 @@
 ## * That you're using the default mysql port
 ## * That you just want C5 running instantly at first.
 ## * That you can set environment variables in your setup
-echof info "Running start script"
-
+###################
+## Add Functions
+###################
 ## Function echo_fancy echof
-## Colorize and fancify console output.
 ## Useage: echof [run|warn|info] {Message}
 function echof() {
-	LGREEN_STDOUT='\033[1;32m'
-	YELLOW_STDOUT='\033[1;33m'
-	BLUE_STDOUT='\033[0;34'
-  DGRAY_STDOUT='\033[1:30m'
-  WHITE_STDOUT='\033[1;37m'
 	case $1 in
 		run )
-			echo "[${LGREEN_STDOUT}RUN${WHITE_STDOUT}]  $2"
+			echo "[RUN]  $2"
 			;;
 		warn )
-			echo "[${YELLOW_STDOUT}Warn${WHITE_STDOUT}] $2"
+			echo "[Warn] $2"
 			;;
 		info )
-			echo "[${BLUE_STDOUT}Info${WHITE_STDOUT}] ${DGRAY_STDOUT}$2"
+			echo "[Info] $2"
 			;;
 		esac
 }
 
 # echof info "Waiting for a grace period to let MariaDB start up."
-# sleep 30s
+sleep 5s
 function console_break() {
   for i in {1..2}; do
     echo
@@ -48,6 +43,11 @@ function setup_conf() {
 		echof info "$1 was not set leaving as default instead."
 	fi
 }
+
+###################
+## Begin Startup ##
+###################
+echof info "Running start script"
 ## Disabling config installation for now.  It may conflict with the invocation.
 # console_break
 # echof info "If empty, copy database.php configuration to volume"
@@ -71,7 +71,7 @@ echof run "Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user
 DBCHECK=$(mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME)
 mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME
 # echof info "Waiting for a grace period to let MariaDB get over the fact we've connected to it already once."
-# sleep 10s
+sleep 5s
 DBCHECK_RESULT=${DBCHECK}
 echo "[Info], mysqlshow indicates the presence of the database: $DBCHECK_RESULT"
 
@@ -79,9 +79,9 @@ console_break
 ## To run database preseed or not to.  Then run the appliance.
 echof info "Preseed Database during first run?"
 if [[ "$C5_PRESEED" == yes ]]; then
-  echo [Info] Checking that MariaDB is connectable and has the correct default database available.
+  echo [Info] "Checking that MariaDB is connectable and has the correct default database available."
   if [[ ! "$DBCHECK_RESULT" == "$DB_NAME" ]]; then
-    echo The database $DB_NAME does not exist on $DB_USERNAME@$DB_SERVER.
+    echof warn "The database $DB_NAME does not exist on $DB_USERNAME@$DB_SERVER."
     ## This needs to be more advanced
     # die() {
     # echo "[FAIL] You already have a database on the specified server."
