@@ -11,18 +11,20 @@ echof info "Running start script"
 ## Colorize and fancify console output.
 ## Useage: echof [run|warn|info] {Message}
 function echof() {
-	GREEN_STDOUT='\033[0;32m'
+	LGREEN_STDOUT='\033[1;32m'
 	YELLOW_STDOUT='\033[1;33m'
 	BLUE_STDOUT='\033[0;34'
+  DGRAY_STDOUT='\033[1:30m'
+  WHITE_STDOUT='\033[1;37m'
 	case $1 in
 		run )
-			echo "${GREEN_STDOUT} [RUN]  $2"
+			echo "[${LGREEN_STDOUT}RUN${WHITE_STDOUT}]  $2"
 			;;
 		warn )
-			echo "${YELLOW_STDOUT} [Warn] $2"
+			echo "[${YELLOW_STDOUT}Warn${WHITE_STDOUT}] $2"
 			;;
 		info )
-			echo "${BLUE_STDOUT} [Info] $2"
+			echo "[${BLUE_STDOUT}Info${WHITE_STDOUT}] ${DGRAY_STDOUT}$2"
 			;;
 		esac
 }
