@@ -90,6 +90,8 @@ if [[ "$C5_PRESEED" == yes ]]; then
   else
     echof info "No tables Found at $DB_USERNAME@$DB_SERVER in $DB_NAME using password $DB_PASSWORD"
     echof info "Running C5 installation with the following settings"
+		echof run "rm -f /var/www/html/application/config/database.php"
+		rm -f /var/www/html/application/config/database.php
     echof run "/var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE"
     /var/www/html/concrete/bin/concrete5 c5:install \
       --db-server=$DB_SERVER \
