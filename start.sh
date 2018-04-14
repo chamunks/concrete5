@@ -6,8 +6,8 @@
 ## * That you just want C5 running instantly at first.
 ## * That you can set environment variables in your setup
 echo "[Info] Running start script"
-echo "[Info] Waiting for a grace period to let MariaDB start up."
-sleep 5s
+# echo "[Info] Waiting for a grace period to let MariaDB start up."
+# sleep 30s
 function console_break() {
   for i in {1..2}; do
     echo
@@ -47,8 +47,8 @@ echo "[Info] Testing connection to MariaDB database"
 echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
 DBCHECK=$(mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME)
 mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME
-echo "[Info] Waiting for a grace period to let MariaDB get over the fact we've connected to it already once."
-sleep 10s
+# echo "[Info] Waiting for a grace period to let MariaDB get over the fact we've connected to it already once."
+# sleep 10s
 DBCHECK_RESULT=${DBCHECK}
 echo "[Info], mysqlshow indicates the presence of the database: $DBCHECK_RESULT"
 
@@ -68,7 +68,7 @@ if [[ "$C5_PRESEED" == yes ]]; then
     echo "[Info] No tables Found at $DB_USERNAME@$DB_SERVER in $DB_NAME using password $DB_PASSWORD"
     echo "[Info] Running C5 installation with the following settings"
     echo "[RUN]  /var/www/html/concrete/bin/concrete5 c5:install --db-server=$DB_SERVER --db-username=$DB_USERNAME --db-password=$DB_PASSWORD --db-database=$DB_NAME --site=$C5_SITE_NAME --starting-point=$C5_STARTING_POINT --admin-email=$C5_EMAIL --admin-password=$C5_PASSWORD --site-locale=$C5_LOCALE"
-    /var/www/html/concrete/bin/concrete5 c5:install -vvv \
+    /var/www/html/concrete/bin/concrete5 c5:install \
       --db-server=$DB_SERVER \
       --db-username=$DB_USERNAME \
       --db-password=$DB_PASSWORD \
