@@ -52,11 +52,6 @@ mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSW
 DBCHECK_RESULT=${DBCHECK}
 echo "[Info], mysqlshow indicates the presence of the database: $DBCHECK_RESULT"
 
-## Install Debug Code suggested in slack
-echo "[RUN] sed -i '103 a 'if (is_numeric($fv)) { throw new \RuntimeException('Unable to import file, got code ' . $fv); }'' /var/www/html/concrete/src/Backup/ContentImporter.php"
-sed -i '103 a 'if (is_numeric($fv)) { throw new \RuntimeException('Unable to import file, got code ' . $fv); }'' /var/www/html/concrete/src/Backup/ContentImporter.php
-sed '103 a 'if (is_numeric($fv)) { throw new \RuntimeException('Unable to import file, got code ' . $fv); }'' /var/www/html/concrete/src/Backup/ContentImporter.php
-
 console_break
 ## To run database preseed or not to.  Then run the appliance.
 echo "[Info] Preseed Database during first run?"
