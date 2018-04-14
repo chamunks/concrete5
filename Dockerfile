@@ -68,9 +68,9 @@ RUN unzip -qq /usr/local/src/concrete5-${C5_VERSION}.zip -d /usr/local/src/  && 
     rm -v /usr/local/src/concrete5-${C5_VERSION}.zip
 
 RUN echo "[Info] Concrete5 Version: $C5_VERSION" && \
-    echo "[RUN] chmod -R 775 /usr/local/src/concrete5-$C5_VERSION" && \
+    echo "[RUN]  chmod -R 775 /usr/local/src/concrete5-$C5_VERSION" && \
     chmod -R 775 /usr/local/src/concrete5-$C5_VERSION && \
-    echo "[RUN] chown -R root:www-data /usr/local/src/concrete5-$C5_VERSION" && \
+    echo "[RUN]  chown -R root:www-data /usr/local/src/concrete5-$C5_VERSION" && \
     chown -R root:www-data /usr/local/src/concrete5-$C5_VERSION
 
 ADD config/database.php /usr/local/src/database.php
