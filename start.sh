@@ -6,8 +6,8 @@
 ## * That you just want C5 running instantly at first.
 ## * That you can set environment variables in your setup
 echo "[Info] Running start script"
-echo "[Info] Waiting for a grace period to let MariaDB start up."
-sleep 30s
+# echo "[Info] Waiting for a grace period to let MariaDB start up."
+# sleep 30s
 function console_break() {
   for i in {1..2}; do
     echo
@@ -47,8 +47,8 @@ echo "[Info] Testing connection to MariaDB database"
 echo "[RUN] Executing the command: mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME"
 DBCHECK=$(mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME)
 mysqlshow --host=$DB_SERVER --port=3306 --user=$DB_USERNAME --password=$DB_PASSWORD $DB_NAME| grep -v Wildcard | grep -o $DB_NAME
-echo "[Info] Waiting for a grace period to let MariaDB get over the fact we've connected to it already once."
-sleep 10s
+# echo "[Info] Waiting for a grace period to let MariaDB get over the fact we've connected to it already once."
+# sleep 10s
 DBCHECK_RESULT=${DBCHECK}
 echo "[Info], mysqlshow indicates the presence of the database: $DBCHECK_RESULT"
 
