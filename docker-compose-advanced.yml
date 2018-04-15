@@ -70,7 +70,7 @@ web:
     DB_USERNAME: generated
     DB_PASSWORD: generated
     DB_NAME: c5db
-    CT_SITE_NAME: default.com
+    C5_SITE_NAME: default.com
     C5_STARTING_POINT: elemental_full
     C5_EMAIL: default@default.com
     C5_PASSWORD: default
