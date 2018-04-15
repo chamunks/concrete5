@@ -75,7 +75,7 @@ RUN wget -nv --header 'Host: www.concrete5.org' --user-agent 'Mozilla/5.0 (Macin
 ## Assert permissions into extracted files
 RUN echof info "Concrete5 Version: $C5_VERSION" && \
     echof run 'test_for_dir /usr/local/src/concrete5-$C5_VERSION 775 "root:www-data"' && \
-    test_for_dir /usr/local/src/concrete5-$C5_VERSION 775 "root:www-data" && \
+    test_for_dir /usr/local/src/concrete5-$C5_VERSION 775 "root:www-data"
 
 ## Add files for use in later stages of deployment.
 ADD config/database.php /usr/local/src/database.php
