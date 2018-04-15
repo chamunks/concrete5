@@ -5,84 +5,9 @@ set -e
 # include dot-files (if present) when coping into mounted volumes
 shopt -s dotglob
 
-## Function echo_fancy echof
-## Useage: echof [run|warn|info] {Message}
-function echof() {
-	case $1 in
-		run )
-			echo "[RUN]  $2"
-			;;
-		warn )
-			echo "[Warn] $2"
-			;;
-		info )
-			echo "[Info] $2"
-			;;
-		esac
-}
-
 ## a nice tidy linecounter and echo response to keep things clean.
 function change_count() {
 	read LINECOUNT && echof info "There were $LINECOUNT changes made."
-}
-
-function test_perm() {
-	## This function should only be called by test_for_[dir|file] functions
-	echof info "running test_perm function"
-			## setting variables
-			CURRENT_UID=$(stat -c %U "$1")
-			CURRENT_GID=$(stat -c %G "$1")
-			CURRENT_OCTAL=$(stat -c %a "$1")
-			CURRENT_OWNERSHIP=$(echo $CURRENT_UID:$CURRENT_GID)
-			echof info "test_perm for $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
-	## test octal permissions and assert any needed corrections.
-	if [ ! "$CURRENT_OCTAL" == $CHK_OCTAL ]; then
-		echof warn "$CHK_PATH was not set with the correct permissions $CHK_OCTAL"
-		echof run "chmod $CHK_OCTAL $CHK_PATH"
-		chmod -v $CHK_OCTAL $CHK_PATH
-	else
-		echof info "$1 has the correct permissions"
-	fi
-	## Test group and user permissions and assert them if they're wrong.
-	if [ ! "$CURRENT_OWNERSHIP" == $CHK_OWNERSHIP ]; then
-		echof warn "$CHK_PATH did does not have the correct permissions."
-		echof warn "$CHK_PATH has $CURRENT_OCTAL it needs to have $CHK_OWNERSHIP"
-		echof run "chown -v $CHK_PATH $CHK_OCTAL"
-		chown -v $CHK_OCTAL $CHK_PATH
-	else
-		echof info "$CHK_PATH is owned by the correct user:group $CHK_OCTAL"
-	fi
-}
-
-## If directory doesn't exist create it and set group perms.
-## Var $1 should be a directory.
-## Var $2 should be your octal permissions for said directory.
-## Var $3 should be your "user:group" names
-function test_for_dir() {
-	## Set variables from idices
-	CHK_PATH=$1
-	CHK_OWNERSHIP=$2
-	CHK_OCTAL=$3
-	if [ -d '$1' ]; then
-		test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL
-	else
-		echof info "Directory $1 was missing, creating directory and setting permissions."
-		echof run "mkdir -pv $1"
-		mkdir -pv $1
-		echof info "test_for_dir is running test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL"
-		test_perm $CHK_PATH $CHK_OWNERSHIP $CHK_OCTAL
-	fi
-}
-
-## This tests to see if a file exists and if it's permissions are correct or not.
-## Then it attempts to assert that files permissions.
-## Maybe add a test case to ensure that the file is critical or not.
-function test_for_file() {
-	if [ ! -f '$1' ]; then
-		echo [Info] File $1 not found.
-	else
-		test_perm $1 $2 $3
-	fi
 }
 
 # if empty, copy apache2 configuration to volume
