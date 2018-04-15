@@ -5,7 +5,7 @@
 #  DB_USERNAME is the username to be used to access the database server
 #  DB_PASSWORD is the password associated to DB_USERNAME
 #  DB_NAME is the name of the database to use (it must exist and it must be empty)
-#  CT_SITE_NAME is the name to give to the new concrete5 installation (will be shown for instance in the page titles)
+#  C5_SITE_NAME is the name to give to the new concrete5 installation (will be shown for instance in the page titles)
 #  C5_STARTING_POINT specify which set of initial data should be installed. By default concrete5 comes with elemental_full and elemental_blank
 #  C5_EMAIL is the email to associate to the admin account that will be created on the new concrete5 installation
 #  C5_PASSWORD is the password to assign to the admin account that will be created on the new concrete5 installation
@@ -15,7 +15,7 @@ DB_SERVER         = localhost
 DB_USERNAME       = default_username
 DB_PASSWORD       = default_password
 DB_NAME           = default_database
-CT_SITE_NAME      = default.com
+C5_SITE_NAME      = default.com
 C5_STARTING_POINT = elemental_full
 C5_EMAIL          = default@default.com
 C5_PASSWORD       = default_password2
