@@ -1,5 +1,4 @@
 FROM php:7.1-apache
-
 MAINTAINER Chamunks chamunks AT gmail.com
 
 
@@ -29,6 +28,11 @@ ENV C5_PASSWORD       default
 ENV C5_LOCALE         en_US
 ENV C5_PRESEED        yes
 
+ADD bin/echof.sh /bin/echof
+ADD bin/test_for_dir.sh /bin/test_for_dir
+ADD bin/test_for_file.sh /bin/test_for_file
+ADD bin/test_perm.sh /bin/test_perm
+
 ## Install fancy wrapper from Concrete5 Slack's own mlocati.
 ## https://github.com/mlocati/docker-php-extension-installer
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
@@ -46,39 +50,33 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libjpeg62-turbo-dev \
     libfreetype6-dev && \
-    # docker-php-ext-install mysqli && \
-    # docker-php-ext-install zip && \
-    # docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
-    # docker-php-ext-install -j$(nproc) gd && \
-    # docker-php-ext-install pdo_mysql && \
     docker-php-source delete && \
     rm -rf /var/lib/apt/lists/* && \
     a2enmod rewrite
 
-## get a copy of Concrete5 and store it for deployment on container launch.
-RUN mkdir -p /usr/local/src && \
-    mkdir -p /var/www/html && \
-    chown root:www-data /var/www/html
-RUN wget -nv --header 'Host: www.concrete5.org' --user-agent 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0) Gecko/20100101 Firefox/52.0' --header 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' --header 'Accept-Language: en-US,en;q=0.5' --header 'Upgrade-Insecure-Requests: 1' 'https://www.concrete5.org/download_file/-/view/100595/8497/' --output-document '/usr/local/src/concrete5-8.3.2.zip'
+## Make sure directories exist where they should.
+RUN test_for_file /usr/local/src 775 "root:www-data" && \
+    test_for_file /var/www/html 775 "root:www-data"
 
-RUN unzip -qq /usr/local/src/concrete5-${C5_VERSION}.zip -d /usr/local/src/  && \
+## get a copy of Concrete5 downloaded and unpacked.
+RUN RUN wget -nv --header 'Host: www.concrete5.org' --user-agent 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0) Gecko/20100101 Firefox/52.0' --header 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' --header 'Accept-Language: en-US,en;q=0.5' --header 'Upgrade-Insecure-Requests: 1' 'https://www.concrete5.org/download_file/-/view/100595/8497/' --output-document '/usr/local/src/concrete5-8.3.2.zip' && \
+    unzip -qq /usr/local/src/concrete5-${C5_VERSION}.zip -d /usr/local/src/  && \
     ls -lAh /usr/local/src/ && \
+    echof run "chown -R root:www-data /usr/local/src/concrete5-${C5_VERSION}" && \
     chown -R root:www-data /usr/local/src/concrete5-${C5_VERSION} && \
+    echof run "ls -lAh /usr/local/src/concrete5-${C5_VERSION}" && \
     ls -lAh /usr/local/src/concrete5-${C5_VERSION} && \
+    echof run "rm -v /usr/local/src/concrete5-${C5_VERSION}.zip" && \
     rm -v /usr/local/src/concrete5-${C5_VERSION}.zip
 
-RUN echo "[Info] Concrete5 Version: $C5_VERSION" && \
-    echo "[RUN]  chmod -R 775 /usr/local/src/concrete5-$C5_VERSION" && \
-    chmod -R 775 /usr/local/src/concrete5-$C5_VERSION && \
-    echo "[RUN]  chown -R root:www-data /usr/local/src/concrete5-$C5_VERSION" && \
-    chown -R root:www-data /usr/local/src/concrete5-$C5_VERSION
+RUN echof info "Concrete5 Version: $C5_VERSION" && \
+    echof run 'test_for_dir /usr/local/src/concrete5-$C5_VERSION 775 "root:www-data"' && \
+    test_for_dir /usr/local/src/concrete5-$C5_VERSION 775 "root:www-data" && \
 
 ADD config/database.php /usr/local/src/database.php
 ADD /php/docker-php-uploads.ini /usr/local/etc/php/conf.d/docker-php-uploads.ini
 ADD docker-entrypoint /bin/docker-entrypoint
-ADD start.sh /bin/start-c5
-
-RUN chmod +x /bin/docker-entrypoint /bin/start-c5
+ADD bin/start.sh /bin/start-c5
 
 # Persist website user data, logs & apache config if you want
 VOLUME [ "/var/www/html", "/usr/local/etc/php", "/var/www/html/config" ]
