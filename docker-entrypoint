@@ -23,25 +23,27 @@ fi
 echof run "ls /var/www/html/"
 ls /var/www/html/
 if [ ! -e '/var/www/html/config/concrete.php' ]; then
-		if [ "$(ls -A /var/www/html)" ]; then
-			echof warn "/var/www/html/ is not Empty. It contains:" 1>&2
-			ls -A 1>&2
-			echof info "Making an attempt to nicely merge files using."
-			echof run "mv -fnu /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
-			mv -fnu /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
-		else
-			echof run "mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
-			mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
-		fi
-		echo "Concrete5 installed into /var/www/html"
-		# change required permissions incl. for multi-lingual sites
-		test_for_dir /var/www/html/application/files/ 775 "root:www-data"
-		test_for_dir /var/www/html/application/config/ 775 "root:www-data"
-		test_for_dir /var/www/html/packages/ 775 "root:www-data"
-		test_for_dir /var/www/html/updates/ 775 "root:www-data"
-		test_for_dir /var/www/html/application/languages/ 775 "root:www-data"
-		test_for_dir /var/www/html/application/languages/site/ 775 "root:www-data"
-		echof info "copied Concrete5 and set permissions"
+	echof warn "Concrete5 doesn't appear to be installed yet."
+	echof blank "Don't worry this is normal first time around."
+	if [ "$(ls -A /var/www/html)" ]; then
+		echof warn "/var/www/html/ is not Empty. It contains:" 1>&2
+		ls -A 1>&2
+		echof info "Making an attempt to nicely merge files using."
+		echof run "mv -fnu /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
+		mv -fnu /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
+	else
+		echof run "mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/"
+		mv /usr/local/src/concrete5-$C5_VERSION/* /var/www/html/
+	fi
+	echo "Concrete5 installed into /var/www/html"
+	# change required permissions incl. for multi-lingual sites
+	test_for_dir /var/www/html/application/files/ 775 "root:www-data"
+	test_for_dir /var/www/html/application/config/ 775 "root:www-data"
+	test_for_dir /var/www/html/packages/ 775 "root:www-data"
+	test_for_dir /var/www/html/updates/ 775 "root:www-data"
+	test_for_dir /var/www/html/application/languages/ 775 "root:www-data"
+	test_for_dir /var/www/html/application/languages/site/ 775 "root:www-data"
+	echof info "Copied Concrete5 and set permissions"
 fi
 
 echof run 'test_for_dir /var/www/html/packages 775 "root:www-data"'
