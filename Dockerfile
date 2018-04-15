@@ -63,7 +63,7 @@ RUN wget -nv --header 'Host: www.concrete5.org' --user-agent 'Mozilla/5.0 (Macin
 
 RUN unzip -qq /usr/local/src/concrete5-${C5_VERSION}.zip -d /usr/local/src/  && \
     ls -lAh /usr/local/src/ && \
-    chown root:www-data /usr/local/src/concrete5-${C5_VERSION} && \
+    chown -R root:www-data /usr/local/src/concrete5-${C5_VERSION} && \
     ls -lAh /usr/local/src/concrete5-${C5_VERSION} && \
     rm -v /usr/local/src/concrete5-${C5_VERSION}.zip
 
